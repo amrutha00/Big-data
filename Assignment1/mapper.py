@@ -19,7 +19,7 @@ def load_data():
 				continue
 
 			# All values must be either true or false
-			if not ((j_content['recognized'] == 'true') or (j_content['recognized'] == 'false')):
+			if not ((j_content['recognized'] == True) or (j_content['recognized'] == False)):
 				continue
 
 			# Numeric string that's 16 characters long 
