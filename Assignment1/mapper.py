@@ -54,4 +54,12 @@ def load_data():
 		# ans is a list of dictionaries - (Dont know what this must return - this can change)
 		return ans
 
+def mapper():
+	raise NotImplementedError
+
+def main():
+	raise NotImplementedError
+
+if __name__=="__main__":
+	main()	
 
