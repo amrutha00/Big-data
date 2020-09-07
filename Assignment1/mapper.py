@@ -1,27 +1,7 @@
-#mapper
+#!/usr/bin/python
 import sys
 import datetime
 
-
-
-
-def mapper_task1(word):
-    try:
-        for line in sys.stdin:
-            #if clean_code(line)!=True:
-                #continue
-
-            line=line.strip("{")
-            line=line.strip("}")
-            #print(word)
-            attribute=line.split(",")
-            #print(attribute[0])
-            if word==attribute[0].replace('"','').split(": ")[1]:
-                if attribute[3].replace('"','').split(": ")[1]=='true':
-                    print('{0}\t{1}'.format(word,1))
-    except:
-        #print("exiting")
-        sys.exit()   
 
 
 def get_day(timestamp):
@@ -37,7 +17,7 @@ def get_day(timestamp):
 
 
             
-def mapper_task2(word):
+def mapper_task(word):
     try:
         for line in sys.stdin:
             #if clean_code(line)!=True:
@@ -50,7 +30,11 @@ def mapper_task2(word):
             day=get_day(attribute[2])
             if word==attribute[0].replace('"','').split(": ")[1] and attribute[3].replace('"','').split(": ")[1]=='false':
                 if day in ['Saturday','Sunday']:
-                    print('{0}\t{1}'.format(word,1))            
+                    print('{0}\t{1}'.format("unrecognised",1))       
+            else:
+                if word==attribute[0].replace('"','').split(": ")[1]:
+                    if attribute[3].replace('"','').split(": ")[1]=='true':
+                         print('{0}\t{1}'.format("recognised",1))
             
     except:
         #print("exiting")
@@ -58,9 +42,8 @@ def mapper_task2(word):
 
 
 if  __name__=="__main__":
-    word=input()
-    mapper_task1(word)
-    #mapper_task2(word)
-
+    word=sys.argv[1]
+    mapper_task(word)
+    
 
 
