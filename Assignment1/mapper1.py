@@ -40,7 +40,7 @@ def check(j_content, k):
 		return False
 
 	dist = math.sqrt((j_content['drawing'][0][0][0])**2 + (j_content['drawing'][0][1][0])**2)
-	if (dist < k):
+	if (dist <= k):
 		return False
 	return True
 
