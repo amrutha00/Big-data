@@ -54,7 +54,7 @@ def main():
 		j_content = json.loads(line.strip())
 		if (j_content['word'] == word):
 			if (check(j_content, k)):
-				print(j_content['countrycode'], 1)
+				print(j_content['countrycode'], 1,sep="\t")
 
 if __name__=="__main__":
 	main()
