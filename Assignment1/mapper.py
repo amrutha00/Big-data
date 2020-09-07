@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import sys
 import datetime
 
@@ -34,7 +34,7 @@ def mapper_task(word):
             else:
                 if word==attribute[0].replace('"','').split(": ")[1]:
                     if attribute[3].replace('"','').split(": ")[1]=='true':
-                         print('{0}\t{1}'.format("recognised",1))
+                        print('{0}\t{1}'.format("recognised",1))
             
     except:
         #print("exiting")
