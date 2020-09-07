@@ -3,15 +3,20 @@ import sys
 #reducer1
 
 
-sum_count=0
+sum_recognised=0
+sum_unrecognised=0
 try:
     for line in sys.stdin:
         line=line.strip(" ")
-        word, count = line.split("\t")
+        word,count = line.split("\t")
         count=int(count)
-        sum_count = sum_count + count
+        if word=="recognised":
+        	sum_recognised = sum_recognised + count
+        else:
+        	sum_unrecognised=sum_unrecognised + count
+    print(sum_recognised,sum_unrecognised,sep="\n")    
 except:
-    print(sum_count) 
+     
     sys.exit()
 
 
