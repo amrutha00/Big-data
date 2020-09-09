@@ -62,7 +62,7 @@ def mapper_task(word):
             #if clean_code(line)!=True:
                     #continue
             #print(line)
-            jcon = json.loads(line.strip())
+            line1 = line
             line=line.strip("{")
 
             line=line.strip("}")
@@ -71,6 +71,7 @@ def mapper_task(word):
 
             if ((attribute[3].replace('"','').split(": ")[1]!='false') and (attribute[3].replace('"','').split(": ")[1]!='true')):
                 continue
+            jcon = json.loads(line1.strip())
             day=get_day(attribute[2])
             if word==attribute[0].replace('"','').split(": ")[1] and attribute[3].replace('"','').split(": ")[1]=='false':
                 if day in ['Saturday','Sunday']:

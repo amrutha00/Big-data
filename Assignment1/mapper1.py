@@ -51,12 +51,13 @@ def main():
 	k = sys.argv[2]
 	k = int(k)
 	for line in sys.stdin:
+		line1 = line
 		line = line.strip("{")
 		line = line.strip("}")
 		attribute = line.split(",")
 		if ((attribute[3].replace('"','').split(": ")[1]!='false') and (attribute[3].replace('"','').split(": ")[1]!='true')):
 			continue
-		j_content = json.loads(line.strip())
+		j_content = json.loads(line1.strip())
 		if (j_content['word'] == word):
 			if (check(j_content, k)):
 				print(j_content['countrycode'], 1,sep="\t")
