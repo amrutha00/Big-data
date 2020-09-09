@@ -68,6 +68,9 @@ def mapper_task(word):
             line=line.strip("}")
             #print(word)
             attribute=line.split(",")
+
+            if ((attribute[3].replace('"','').split(": ")[1]!='false') and (attribute[3].replace('"','').split(": ")[1]!='true')):
+                continue
             day=get_day(attribute[2])
             if word==attribute[0].replace('"','').split(": ")[1] and attribute[3].replace('"','').split(": ")[1]=='false':
                 if day in ['Saturday','Sunday']:

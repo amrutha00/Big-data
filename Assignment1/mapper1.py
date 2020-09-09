@@ -51,6 +51,11 @@ def main():
 	k = sys.argv[2]
 	k = int(k)
 	for line in sys.stdin:
+		line = line.strip("{")
+		line = line.strip("}")
+		attribute = line.split(",")
+		if ((attribute[3].replace('"','').split(": ")[1]!='false') and (attribute[3].replace('"','').split(": ")[1]!='true')):
+			continue
 		j_content = json.loads(line.strip())
 		if (j_content['word'] == word):
 			if (check(j_content, k)):
