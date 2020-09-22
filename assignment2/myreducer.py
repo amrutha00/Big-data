@@ -14,6 +14,7 @@ for line in sys.stdin:
     	temp.append(to_node)
     else:
     	if (prev_node is not None):
+            temp.sort()
     		print(prev_node, temp, sep="\t")
     	prev_node = from_node
     	temp = [to_node]
