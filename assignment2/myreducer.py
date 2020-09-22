@@ -18,4 +18,5 @@ for line in sys.stdin:
     		print(prev_node, temp, sep="\t")
     	prev_node = from_node
     	temp = [to_node]
+temp.sort()
 print(prev_node, temp, sep="\t")
