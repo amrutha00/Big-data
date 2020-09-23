@@ -11,5 +11,5 @@ for line in sys.stdin:
     # words[1] = to_node_id
     if len(words) == 2:
         print('{0}\t{1}'.format(words[0],words[1]))
-    else:
-        print('{0}'.format(words[0]))
+#     else:
+#         print('{0}'.format(words[0]))
