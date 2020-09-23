@@ -31,7 +31,7 @@ for line in sys.stdin:
 for key,value in D.items():
     value.sort()
     print('{0}\t{1}'.format(key,value))
-    file.write('{0}\t{1}'.format(key,1)+'\n')
+    file.write('{0}, {1}'.format(key,1)+'\n')
 
 
      
