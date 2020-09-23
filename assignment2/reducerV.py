@@ -21,4 +21,5 @@ for line in sys.stdin:
 for key in D.keys():
     #value.sort()
     f.write('{0}, {1}\n'.format(key,1))
+f.close()
 
