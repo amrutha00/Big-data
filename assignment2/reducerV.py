@@ -4,7 +4,9 @@ import sys
 D={}
 
 
+path_to_v = sys.argv[1]
 
+f = open(path_to_v, "w")
 
 for line in sys.stdin:
     from_node,to_node=line.split("\t")
@@ -18,5 +20,5 @@ for line in sys.stdin:
   
 for key in D.keys():
     #value.sort()
-    print('{0}\t{1}'.format(key,1))
+    f.write('{0}, {1}\n'.format(key,1))
 
