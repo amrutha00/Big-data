@@ -3,7 +3,7 @@ import sys
 
 D={}
 
-file=open("v.txt","w+")
+file=open("v","w+")
 
 
 
