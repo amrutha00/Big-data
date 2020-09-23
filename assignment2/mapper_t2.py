@@ -10,7 +10,7 @@ for line in f:
 	line = line.strip()
 	node, pagerank = line.split(", ")
 	pgrank[node] = float(pagerank)
-
+f.close()
 
 for line in sys.stdin:
 	line = line.strip()
