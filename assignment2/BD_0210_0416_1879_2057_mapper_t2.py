@@ -1,10 +1,7 @@
 #!/usr/bin/python3
 
 import sys
-<<<<<<< HEAD
-=======
-#import ast
->>>>>>> 2ae0ba3e86938b7354438052c34d97febf7842d6
+
 
 path_to_v = sys.argv[1]
 f = open(path_to_v, "r")
