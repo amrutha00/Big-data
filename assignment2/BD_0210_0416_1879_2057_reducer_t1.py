@@ -29,7 +29,9 @@ for line in sys.stdin:
         
         prev_from_node = from_node
         file.write("{0}, {1}".format(prev_from_node, 1) + "\n")
-
+# This is when the last line's key was equal to the second last line's key. In that case, it would print the node and not write to the file
+#if (last_printed_to_v != prev_from_node):
+#    file.write("{0}, {1}".format(prev_from_node, 1) + "\n")
 
 
 file.close()
