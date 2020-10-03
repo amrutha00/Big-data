@@ -1,11 +1,8 @@
 #!/usr/bin/python3
 
 import sys
-
-
 path_to_v = sys.argv[1]
 f = open(path_to_v, "r")
-
 
 pgrank = dict()
 l_nodes= dict()
@@ -31,11 +28,11 @@ for line in sys.stdin:
 	for i in to_nodes:
 		if i in l_nodes:
 			l_nodes[i] = 0
-			print("{0}\t{1}".format(i, pgrank[from_node]/length))
-			
+			#print("{0}\t{1}".format(i, pgrank[from_node]/length))
+			print(i + '\t' + pgrank[from_node]/length)
+						
 l_nodes_keys = l_nodes.keys()
 
 for i in l_nodes_keys:
-	if (l_nodes[i] == 1):
-		print("{0}\t{1}".format(i, 0.00000))
-		
+	#print("{0}\t{1}".format(i, 0.00000))
+	print(i + '\t0.00000') 
