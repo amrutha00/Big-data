@@ -29,7 +29,7 @@ for line in sys.stdin:
 		if i in l_nodes:
 			l_nodes[i] = 0
 			#print("{0}\t{1}".format(i, pgrank[from_node]/length))
-			print(i + '\t' + pgrank[from_node]/length)
+			print(i + '\t' + str(pgrank[from_node]/length))
 						
 l_nodes_keys = l_nodes.keys()
 
