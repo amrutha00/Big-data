@@ -3,6 +3,7 @@ import time
 import socket
 import json
 import random
+from queue import Queue
 
 class Master:
 	def __init__(self, algo):
@@ -10,7 +11,7 @@ class Master:
 			Initialises the job_pool, wait_queue lists and the workers dictionary
 		"""
 		self.job_pool = []
-		self.wait_queue = []
+		self.wait_queue = Queue()
 		self.workers = dict()
 		self.algo = algo
 
@@ -66,10 +67,11 @@ class Master:
 		"""
 		worker_id = self.find_worker()
 		port_number = self.workers[worker_id]['port']
-		masterSocket = socket(AF_INET, SOCK_DGRAM)
-		to_name = "localhost"
-		masterSocket.sendto(task.encode(), (to_name, port_number))
-		masterSocket.close()
+		task = json.dumps(task)
+		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+			s.connect(("localhost", port_number))
+			s.send(task.encode())
+		
 		self.decrement_slot(worker_id)
 
 	def dependency_wait(self, job):
@@ -95,7 +97,18 @@ class Master:
 			This function listens for job requests and
 			adds the jobs received to the wait queue
 		"""
-		raise NotImplementedError
+		rec_port = 5000
+		rec_socket = socket(AF_INET, SOCK_STREAM)
+		rec_socket.bind(('', rec_port))
+		rec_socket.listen(1)
+		while True:
+			connectionSocket, addr = serverSocket.accept()
+			message = connectionSocket.recv(2048).decode()
+			message = json.loads(message)
+			wait_queue.put(message)
+			connectionSocket.close()
+
+
 
 	def schedule_jobs(self):
 		"""
