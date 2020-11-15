@@ -60,7 +60,7 @@ class Master:
 		else:
 			raise NotImplementedError
 
-	def schedule_map_task(self, task):
+	def schedule_task(self, task):
 		"""
 			Schedules the given task to one of the workers
 		"""
@@ -71,6 +71,43 @@ class Master:
 		masterSocket.sendto(task.encode(), (to_name, port_number))
 		masterSocket.close()
 		self.decrement_slot(worker_id)
+
+	def dependency_wait(self, job):
+		"""
+			This function waits till all map tasks of the job have been finished
+			I think this function only listens for updates from the workers
+		"""
+		raise NotImplementedError
+
+	def schedule_all_tasks(self, job):
+		"""
+			Schedules map and reduce tasks of the given job
+		"""
+		for task in job["map_tasks"]:
+			self.schedule_task(task)
+		self.dependency_wait(job)
+		for task in job["reduce_tasks"]:
+			self.schedule_task(task)
+		# do something to listen for updates regarding reducers
+
+	def listen_for_job_requests(self):
+		"""
+			This function listens for job requests and
+			adds the jobs received to the wait queue
+		"""
+		raise NotImplementedError
+
+	def schedule_jobs(self):
+		"""
+			Dequeues jobs from the wait queue and calls schedule_all_tasks for each job
+			Doubt: Idk how often this should dequeue from the wait queue
+			Should there be a function to check for unused slots? We need to discuss this
+		"""
+		raise NotImplementedError
+
+
+
+
 
 
 
