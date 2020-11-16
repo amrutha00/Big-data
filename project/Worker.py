@@ -54,25 +54,6 @@ class Worker:
                 #self.logs('COMPLETED',task_id,time.time())
                 self.update_master([self.worker_id,task_id]) #t2 must update the master about the status of the task completion
                 self.pool.pop(task_id) #remove the task from the execution pool
-    '''
-    def getdate(self):
-        d=datetime.date.today()
-        curr_date = today.strftime("%d:%m:%Y")
-        return curr_date
-
-    def logs(self,msg,t,ptime):
-        #check if wall clock or user time???
-        f = open("logs.txt", "a+") 
-        if msg=='LAUNCHING':
-            date=self.getdate()
-            f.write(task_id," ",msg," ",date," "ptime)
-            
-        else:
-            date=self.getdate()
-            f.write(task_id," ",msg," ",date," "ptime)
-        
-        f.close()
-    '''      
 
 
 
