@@ -13,7 +13,7 @@ class Worker:
         self.worker_id=worker_id
         self.pool=dict()
         self.server_port=5001
-    
+    '''
     def connection(self,lock):
         lock.acquire() 
         rec_port=self.port
@@ -21,25 +21,29 @@ class Worker:
 		recv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         recv_socket.bind('',rec_port())#listens on the specified port
 		recv_socket.connect(('localhost',server_port))#connects to the server
-
+	'''
 
     
-    def listen_master(self,lock):
-        self.connection(lock)
-		while True:
-			task = connectionSocket.recv(2048).decode() #recv the msg for task launch by master
-            self.execution_pool(task) #add task to the execution pool
+    def listen_master(self):#acts as the server listening and servicing requests
+        rec_port=self.port
+       	recv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        recv_socket.bind('',rec_port())#listens on the specified port
+        recv_socket.listen(1)
+	while True:
+		conn_socket, addr = recv_socket.accept()
+		task = conn_socket.recv(2048).decode() #recv the msg for task launch by master
+		self.execution_pool(task) #add task to the execution pool
             #self.logs('LAUNCHING',task,time.time()) #check if wall clock or user time???
-			recv_socket.close()
-        lock.release()
+		recv_socket.close()
         
         
-    def update_master(self,message=None,lock):
-        self.connection(lock)
-		if message:
+    def update_master(self,message=None):#client--sending msgs to server
+        server_port=self.server_port
+	recv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+	recv_socket.connect(('localhost',server_port))#connects to the server
+	if message:
             recv_socket.send(message.encode()) #send the task_id of the task that is completed
             recv_socket.close()
-        lock.release()
 
     
     def execution_pool(self,task): #adds it to execution pool,with task_id and remaining time
@@ -63,9 +67,9 @@ if __name__ == "__main__":
     port=int(sys.argv[1])
     worker_id=int(sys.argv[2])
     worker=Worker(port,worker_id)
-    lock=threading.Lock()
-    t1 = threading.Thread(target=worker.listen_master,args=(lock,)) 
-    t2 = threading.Thread(target=worker.update_master,args=(lock,)) 
+    #lock=threading.Lock()
+    t1 = threading.Thread(target=worker.listen_master) 
+    t2 = threading.Thread(target=worker.update_master) 
   
     t1.start() 
     t2.start() 
