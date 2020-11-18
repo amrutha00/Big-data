@@ -4,6 +4,7 @@ import socket
 import json
 import random
 from queue import Queue
+import threading
 
 class Master:
 	def __init__(self, algo):
@@ -14,6 +15,9 @@ class Master:
 		self.wait_queue = Queue()
 		self.workers = dict()
 		self.algo = algo
+		self.tasks_completed = set()
+		task_mutex = threading.Lock()
+		mutex = threading.Lock()
 
 	def parse_job(self, job):
 		"""
@@ -35,18 +39,28 @@ class Master:
 			self.workers[worker['worker_id']] = dict()
 			self.workers[worker['worker_id']]['slots'] = worker['slots']
 			self.workers[worker['worker_id']]['port'] = worker['port']
+		self.config_workers = self.workers.copy()
 
 	def get_available_workers(self):
 		"""
 			returns a list of worker ids which have at least one slot available
 		"""
-		raise NotImplementedError
+		available_workers = []
+		mutex.acquire()
+		for worker_id in self.workers:
+			if (self.workers[worker_id]['slots'] > 0):
+				available_workers.append(worker_id)
+		mutex.release()
+		return available_workers
+
 
 	def decrement_slot(self, worker_id):
 		"""
 			Given the worker id, update its number of available slots
 		"""
-		raise NotImplementedError
+		mutex.acquire()
+		self.workers[worker_id]['slots'] -= 1
+		mutex.release()
 
 	def find_worker(self):
 		"""
@@ -74,12 +88,55 @@ class Master:
 		
 		self.decrement_slot(worker_id)
 
-	def dependency_wait(self, job):
+	def listen_for_worker_updates(self):
+		rec_port = 5001
+		rec_socket = socket(AD_INET, SOCK_STREAM)
+		rec_socket.bind(('', rec_port))
+		rec_socket.listen(1)
+		while True:
+			connectionSocket, addr = serverSocket.accept()
+			message = connectionSocket.recv(2048).decode()
+			message = json.loads(message)
+			# wait_queue.put(message)
+			task_mutex.acquire()
+			self.tasks_completed.add(message)
+			task_mutex.release()
+			mutex.acquire()
+			self.workers[message[0]] += 1
+			mutex.release()
+			connectionSocket.close()
+
+	def dependency_wait_mapper(self, job):
 		"""
 			This function waits till all map tasks of the job have been finished
 			I think this function only listens for updates from the workers
 		"""
-		raise NotImplementedError
+		mappers = set()
+		for task in job["map_tasks"]:
+			mappers.add(task['task_id'])
+		n = len(mappers)
+		while (n):
+			tempSet = self.tasks_completed.copy()
+			for i in mappers:
+				if (i in tempSet):
+					task_mutex.acquire()
+					self.tasks_completed.remove(i)
+					task_mutex.release()
+					n -= 1
+
+	def dependency_wait_reducer(self, job):
+		reducers = set()
+		for task in job["reduce_tasks"]:
+			mappers.add(task['task_id'])
+		n = len(reducers)
+		while (n):
+			tempSet = self.tasks_completed.copy()
+			for i in reducers:
+				if (i in tempSet):
+					task_mutex.acquire()
+					self.tasks_completed.remove(i)
+					task_mutex.release()
+					n -= 1
 
 	def schedule_all_tasks(self, job):
 		"""
@@ -87,10 +144,10 @@ class Master:
 		"""
 		for task in job["map_tasks"]:
 			self.schedule_task(task)
-		self.dependency_wait(job)
+		self.dependency_wait_mapper(job)
 		for task in job["reduce_tasks"]:
 			self.schedule_task(task)
-		# do something to listen for updates regarding reducers
+		self.dependency_wait_reducer(job)
 
 	def listen_for_job_requests(self):
 		"""
@@ -116,7 +173,34 @@ class Master:
 			Doubt: Idk how often this should dequeue from the wait queue
 			Should there be a function to check for unused slots? We need to discuss this
 		"""
-		raise NotImplementedError
+		while True:
+			while (len(self.get_available_workers()) == 0):
+				pass
+			job = self.wait_queue.get()
+			self.schedule_all_tasks(job)
+			sleep(1)
+
+
+def main():
+
+	config_file = open(sys.argv[1], "r")
+	algo = sys.argv[2]
+	masterProcess = Master(algo)
+	masterProcess.read_config()
+	t1 = threading.Thread(target=Master.listen_for_job_requests) 
+	t2 = threading.Thread(target=Master.listen_for_worker_updates) 
+	masterProcess.schedule_jobs()
+
+	t1.start()
+	t2.start()
+	t1.join()
+	t2.join()
+
+
+
+if __name__ == "__main__":
+	main()
+
 
 
 
