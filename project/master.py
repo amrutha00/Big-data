@@ -99,7 +99,7 @@ class Master:
 			message = json.loads(message)
 			# wait_queue.put(message)
 			task_mutex.acquire()
-			self.tasks_completed.add(message)
+			self.tasks_completed.add(message[0])
 			task_mutex.release()
 			mutex.acquire()
 			self.workers[message[0]] += 1
@@ -200,16 +200,6 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
-
-
-
-
-
-
-
-
-
 
 
 
