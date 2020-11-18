@@ -178,7 +178,7 @@ class Master:
 				pass
 			job = self.wait_queue.get()
 			self.schedule_all_tasks(job)
-			sleep(1)
+			time.sleep(1)
 
 
 def main():
