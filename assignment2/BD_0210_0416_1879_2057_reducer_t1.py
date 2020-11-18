@@ -9,7 +9,7 @@ file=open(path_to_v,"w+")
 
 prev_from_node = None
 
-last_printed_to_v = prev_from_node
+#last_printed_to_v = prev_from_node
 
 for line in sys.stdin:
     line = line.strip()
@@ -23,7 +23,7 @@ for line in sys.stdin:
         # This is true when it's not the first iteration
         if (prev_from_node is not None):
             print()         
-            last_printed_to_v = prev_from_node
+            #last_printed_to_v = prev_from_node
         print(from_node,end="\t")
         print(node,end=" ")
         
