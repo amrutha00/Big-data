@@ -21,6 +21,9 @@ wordRows = df.filter(df['word'] == wordValue).cache()
 booTrue = False
 booFalse = False
 
+#if booTrue=True, already accounted for the case where the word is recognised.
+#if booFalse=True, we have accounted for the case where the word is not recognised.
+
 if (len(wordRows.head(1)) == 0):
 	truecount = 1
 	truesum = 0.00000
@@ -29,9 +32,9 @@ if (len(wordRows.head(1)) == 0):
 	booTrue = True
 	booFalse = True
 a = []
-if (not (booTrue and booFalse)):
+if (not (booTrue and booFalse)):	#at least one is true, i.e, word is present in dataset
 	counts = wordRows.groupBy("recognized").count()
-	a = counts.collect()
+	a = counts.collect()	#convert from df to list
 
 if (len(a) == 1):
 	if (a[0][0] == True):
