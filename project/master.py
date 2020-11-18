@@ -94,7 +94,7 @@ class Master:
 		rec_socket.bind(('', rec_port))
 		rec_socket.listen(1)
 		while True:
-			connectionSocket, addr = serverSocket.accept()
+			connectionSocket, addr = rec_socket.accept()
 			message = connectionSocket.recv(2048).decode()
 			message = json.loads(message)
 			# wait_queue.put(message)
