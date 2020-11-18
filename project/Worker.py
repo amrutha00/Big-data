@@ -13,15 +13,6 @@ class Worker:
         self.worker_id=worker_id
         self.pool=dict()
         self.server_port=5001
-    '''
-    def connection(self,lock):
-        lock.acquire() 
-        rec_port=self.port
-        server_port=self.server_port
-		recv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        recv_socket.bind('',rec_port())#listens on the specified port
-		recv_socket.connect(('localhost',server_port))#connects to the server
-	'''
 
     
     def listen_master(self):#acts as the server listening and servicing requests
@@ -42,8 +33,9 @@ class Worker:
 	recv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	recv_socket.connect(('localhost',server_port))#connects to the server
 	if message:
-            recv_socket.send(message.encode()) #send the task_id of the task that is completed
-            recv_socket.close()
+		message=" ".join(message)
+		recv_socket.send(message.encode()) #send the task_id of the task that is completed
+		recv_socket.close()
 
     
     def execution_pool(self,task): #adds it to execution pool,with task_id and remaining time
@@ -52,12 +44,14 @@ class Worker:
 
 
     def task_monitor(self):
-        for task_id in self.pool.keys():
-            self.pool[task_id]-=1       #reduce time by 1 unit every clock cycle --sleep the thread for 1s
-            if self.pool[task_id]==0: #the task execution is completed
-                #self.logs('COMPLETED',task_id,time.time())
-                self.update_master([self.worker_id,task_id]) #t2 must update the master about the status of the task completion
-                self.pool.pop(task_id) #remove the task from the execution pool
+	while True:
+		for task_id in self.pool.keys():
+		    self.pool[task_id]-=1       #reduce time by 1 unit every clock cycle --sleep the thread for 1s
+		    if self.pool[task_id]==0: #the task execution is completed
+			#self.logs('COMPLETED',task_id,time.time())
+			self.update_master([self.worker_id,task_id]) #t2 must update the master about the status of the task completion
+			self.pool.pop(task_id) #remove the task from the execution pool
+		time.sleep(1)
     
 
 
@@ -69,7 +63,7 @@ if __name__ == "__main__":
     worker=Worker(port,worker_id)
     #lock=threading.Lock()
     t1 = threading.Thread(target=worker.listen_master) 
-    t2 = threading.Thread(target=worker.update_master) 
+    t2 = threading.Thread(target=worker.task_monitor) 
   
     t1.start() 
     t2.start() 
