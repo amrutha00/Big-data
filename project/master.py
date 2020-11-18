@@ -96,13 +96,13 @@ class Master:
 		while True:
 			connectionSocket, addr = rec_socket.accept()
 			message = connectionSocket.recv(2048).decode()
-			message = json.loads(message)
+			message = message.split(" ")
 			# wait_queue.put(message)
 			task_mutex.acquire()
-			self.tasks_completed.add(message[0])
+			self.tasks_completed.add(message[1])#message[1] has task_id
 			task_mutex.release()
 			mutex.acquire()
-			self.workers[message[0]] += 1
+			self.workers[message[0]] += 1 #message[0] has worker_id,increment the slot
 			mutex.release()
 			connectionSocket.close()
 
