@@ -103,7 +103,7 @@ class Master:
 			self.tasks_completed.add(message[1])#message[1] has task_id
 			task_mutex.release()
 			mutex.acquire()
-			self.workers[message[0]] += 1 #message[0] has worker_id,increment the slot
+			self.workers[message[0]]['slots'] += 1 #message[0] has worker_id,increment the slot
 			mutex.release()
 			connectionSocket.close()
 
