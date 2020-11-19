@@ -5,7 +5,7 @@ import json
 import random
 import sys
 from queue import Queue
-import threading
+#import threading
 
 class Master:
 	def __init__(self, algo):
