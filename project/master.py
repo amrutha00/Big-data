@@ -39,6 +39,7 @@ class Master:
 		for worker in content['workers']:
 			self.workers[worker['worker_id']] = dict()
 			self.workers[worker['worker_id']]['slots'] = worker['slots']
+			self.workers[worker['worker_id']]['ip_addr'] =127.0.0.1 #worker['ip_addr']
 			self.workers[worker['worker_id']]['port'] = worker['port']
 		self.config_workers = self.workers.copy()
 
