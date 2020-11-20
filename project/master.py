@@ -97,7 +97,8 @@ class Master:
 		while True:
 			connectionSocket, addr = rec_socket.accept()
 			message = connectionSocket.recv(2048).decode()
-			message = message.split(" ")
+			message = json.loads(message)
+			#message = message.split(" ")
 			# wait_queue.put(message)
 			task_mutex.acquire()
 			self.tasks_completed.add(message[1])#message[1] has task_id
