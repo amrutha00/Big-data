@@ -91,7 +91,7 @@ class Master:
 
 	def listen_for_worker_updates(self):
 		rec_port = 5001
-		rec_socket = socket(AD_INET, SOCK_STREAM)
+		rec_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		rec_socket.bind(('', rec_port))
 		rec_socket.listen(1)
 		while True:
@@ -156,7 +156,7 @@ class Master:
 			adds the jobs received to the wait queue
 		"""
 		rec_port = 5000
-		rec_socket = socket(AF_INET, SOCK_STREAM)
+		rec_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		rec_socket.bind(('', rec_port))
 		rec_socket.listen(1)
 		while True:
