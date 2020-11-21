@@ -206,7 +206,7 @@ def main():
     config_file = open(sys.argv[1], "r")
     algo = sys.argv[2]
     masterProcess = Master(algo)
-    masterProcess.read_config()
+    masterProcess.read_config(config_file)
     t1 = threading.Thread(target=Master.listen_for_job_requests)
     t2 = threading.Thread(target=Master.listen_for_worker_updates)
     masterProcess.schedule_jobs()
