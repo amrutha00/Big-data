@@ -71,6 +71,7 @@ class Master:
             This function reads the json text, creates a worker_details object for each worker 
             and appends the object to the workers list
         """
+        summ=0
         content = json.loads(config)
         for worker in content['workers']:
             obj = Worker_details(worker['worker_id'], worker['slots'], '127.0.0.1', worker['port'])
