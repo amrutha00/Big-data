@@ -43,8 +43,8 @@ class Master:
         self.workers = []  # changed to list
         self.algo = algo
         self.tasks_completed = set()
-        task_mutex = threading.Lock()
-        mutex = threading.Lock()
+        task_mutex = threading.Lock() #for tasks_completed 
+        mutex = threading.Lock() #for slots
 
     def parse_job(self, job):
         """
@@ -119,7 +119,6 @@ class Master:
             message = connectionSocket.recv(2048).decode()
             message = json.loads(message)
             # message = message.split(" ")
-            # wait_queue.put(message)
             task_mutex.acquire()
             self.tasks_completed.add(message[1])  # message[1] has task_id
             task_mutex.release()
@@ -182,7 +181,7 @@ class Master:
         rec_socket.bind(('', rec_port))
         rec_socket.listen(1)
         while True:
-            connectionSocket, addr = serverSocket.accept()  # what is serverSocket?
+            connectionSocket, addr = rec_socket.accept()  # what is serverSocket?
             message = connectionSocket.recv(2048).decode()
             message = json.loads(message)
             self.wait_queue.put(message)  # added self
