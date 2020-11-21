@@ -6,6 +6,7 @@ import socket
 import datetime
 import sys
 import json
+import logging
 
 
 
@@ -68,6 +69,7 @@ class Worker:
         task_id = task['task_id']
         remain_time = task['duration']
         self.pool[task_id]=remain_time
+        logging.debug('Started task {}'.format(task_id))
 
 
     def task_monitor(self):
@@ -82,6 +84,7 @@ class Worker:
 
                 if self.pool[task_id]==0: #the task execution is completed
                     #self.logs('COMPLETED',task_id,time.time())
+                    logging.debug('Completed task {}'.format(task_id))
                     self.update_master(task_id) #t2 must update the master about the status of the task completion
                     self.pool.pop(task_id) #remove the task from the execution pool
             time.sleep(1) #every one second decrement the time of all the tasks
@@ -109,7 +112,10 @@ class Worker:
 
 
 if __name__ == "__main__": 
-    # creating thread 
+
+    logging.basicConfig(filename="yacs.log", level=logging.DEBUG,
+    format='%(filename)s:%(funcName)s:%(message)s:%(asctime)s')
+
     port=int(sys.argv[1])
     worker_id=int(sys.argv[2])
     worker=Worker(port,worker_id)

@@ -5,12 +5,16 @@ import json
 import random
 import sys
 from queue import Queue
+import logging
+
+
 
 class Worker_details:
     """
         Class to store worker details
         Methods: increment_slot
                  decrement_slot
+
     """
     def __init__(self, worker_id, slots, ip_addr, port):
         self.worker_id = worker_id
@@ -39,6 +43,8 @@ class Master:
     def __init__(self, algo):
         """
             Initialises Master attributes
+            self.sem will tell us the number of slots available.
+            
         """
         self.job_pool = []
         self.wait_queue = Queue()
@@ -68,9 +74,11 @@ class Master:
         content = json.loads(config)
         for worker in content['workers']:
             obj = Worker_details(worker['worker_id'], worker['slots'], '127.0.0.1', worker['port'])
+            summ += int(worker['slots'])
             # self.workers.append(obj)
             self.workers[worker['worker_id']] = obj
         self.config_workers = self.workers.copy()  # self.config_workers will store the original configuration details
+        self.sem = threading.BoundedSemaphore(summ) # Initialising the counter with the number of slots
 
     def get_available_workers(self):
         """
@@ -101,6 +109,7 @@ class Master:
         """
             Schedules the given task to one of the workers
         """
+        self.sem.acquire(blocking=True)
         worker_id = self.find_worker()
         port_number = self.workers[worker_id].port
         task = json.dumps(task)
@@ -109,6 +118,7 @@ class Master:
             s.send(task.encode())
 
         self.workers[worker_id].decrement_slot()
+
 
     def listen_for_worker_updates(self):
         rec_port = 5001
@@ -126,6 +136,7 @@ class Master:
             mutex.acquire()
             # self.workers[message[0]]['slots'] += 1 #message[0] has worker_id,increment the slot
             self.workers[message[0]].increment_slot()
+            self.sem.release()
             mutex.release()
             connectionSocket.close()
 
@@ -171,6 +182,7 @@ class Master:
         for task in job["reduce_tasks"]:
             self.schedule_task(task)
         self.dependency_wait_reducer(job)
+        logging.debug('Completed job {}'.format(job['job_id']))
 
     def listen_for_job_requests(self):
         """
@@ -195,14 +207,16 @@ class Master:
             Should there be a function to check for unused slots? We need to discuss this
         """
         while True:
-            while len(self.get_available_workers()) == 0:
-                pass
+            self.sem.acquire(blocking=True)
             job = self.wait_queue.get()
+            logging.debug('Started job with job id {}'.format(job['job_id']))
             self.schedule_all_tasks(job)
             time.sleep(1)
 
 
 def main():
+    logging.basicConfig(filename="yacs.log", level=logging.DEBUG,
+    format='%(filename)s:%(funcName)s:%(message)s:%(asctime)s')
     config_file = open(sys.argv[1], "r")
     algo = sys.argv[2]
     masterProcess = Master(algo)
