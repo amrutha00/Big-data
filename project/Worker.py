@@ -89,27 +89,7 @@ class Worker:
                     self.pool.pop(task_id) #remove the task from the execution pool
             time.sleep(1) #every one second decrement the time of all the tasks
 
-    '''
-    def getdate(self):
-        d=datetime.date.today()
-        curr_date = today.strftime("%d:%m:%Y")
-        return curr_date
-
-    def logs(self,msg,t,ptime):
-        #check if wall clock or user time???
-        f = open("logs.txt", "a+") 
-        if msg=='LAUNCHING':
-            date=self.getdate()
-            f.write(task_id," ",msg," ",date," "ptime)
-            
-        else:
-            date=self.getdate()
-            f.write(task_id," ",msg," ",date," "ptime)
-        
-        f.close()
-    '''      
-
-
+   
 
 if __name__ == "__main__": 
 
