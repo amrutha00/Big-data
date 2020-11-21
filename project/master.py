@@ -7,7 +7,8 @@ import sys
 from queue import Queue
 import logging
 
-
+mutex = threading.Lock() #for slots
+task_mutex = threading.Lock() #for tasks_completed 
 
 class Worker_details:
     """
@@ -39,6 +40,7 @@ class Worker_details:
         mutex.release()
 
 
+
 class Master:
     def __init__(self, algo):
         """
@@ -51,8 +53,8 @@ class Master:
         self.workers = dict()  # changed to dictionary
         self.algo = algo
         self.tasks_completed = set()
-        task_mutex = threading.Lock() #for tasks_completed 
-        mutex = threading.Lock() #for slots
+        
+        
     
     """
     we are not using this at all!
@@ -71,8 +73,8 @@ class Master:
             This function reads the json text, creates a worker_details object for each worker 
             and appends the object to the workers list
         """
-        summ=0
         content = json.loads(config)
+        summ = 0
         for worker in content['workers']:
             obj = Worker_details(worker['worker_id'], worker['slots'], '127.0.0.1', worker['port'])
             summ += int(worker['slots'])
@@ -87,10 +89,12 @@ class Master:
         """
         available_workers = []
         mutex.acquire()
-        for i in self.workers:
-            if self.workers[i].no_of_slots > 0:
-                available_workers.append(i)
+        temp = self.workers
         mutex.release()
+        for i in temp:
+            if temp[i].no_of_slots > 0:
+                available_workers.append(i)
+        
         return available_workers
 
     def find_worker(self):
@@ -125,20 +129,20 @@ class Master:
         rec_port = 5001
         rec_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         rec_socket.bind(('', rec_port))
-        rec_socket.listen(1)
+        rec_socket.listen(3)
         while True:
             connectionSocket, addr = rec_socket.accept()
             message = connectionSocket.recv(2048).decode()
             message = json.loads(message)
-            # message = message.split(" ")
+            logging.debug('Received {}'.format(message))
             task_mutex.acquire()
             self.tasks_completed.add(message[1])  # message[1] has task_id
+            logging.debug('Added {} to tasks completed'.format(message[1]))
             task_mutex.release()
-            mutex.acquire()
             # self.workers[message[0]]['slots'] += 1 #message[0] has worker_id,increment the slot
             self.workers[message[0]].increment_slot()
+            logging.debug('incremented slot for {}'.format(message[0]))
             self.sem.release()
-            mutex.release()
             connectionSocket.close()
 
     def dependency_wait_mapper(self, job):
@@ -162,7 +166,7 @@ class Master:
     def dependency_wait_reducer(self, job):
         reducers = set()
         for task in job["reduce_tasks"]:
-            mappers.add(task['task_id'])
+            reducers.add(task['task_id'])
         n = len(reducers)
         while (n):
             tempSet = self.tasks_completed.copy()
@@ -223,14 +227,18 @@ def main():
     masterProcess = Master(algo)
     masterProcess.read_config(config_file.read())
     config_file.close()
-    t1 = threading.Thread(target=Master.listen_for_job_requests)
-    t2 = threading.Thread(target=Master.listen_for_worker_updates)
-    masterProcess.schedule_jobs()
-
+    t1 = threading.Thread(target=Master.listen_for_job_requests, args=[masterProcess])
+    t2 = threading.Thread(target=Master.listen_for_worker_updates, args=[masterProcess])
+    t3 = threading.Thread(target=Master.schedule_jobs, args=[masterProcess])
+    # masterProcess.schedule_jobs()
+    # print("Hello")
+    t3.start()
     t1.start()
     t2.start()
+    
     t1.join()
     t2.join()
+    t3.join()
 
 
 if __name__ == "__main__":
