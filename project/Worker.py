@@ -11,6 +11,15 @@ import json
 
 class Worker:
     def __init__(self,port,worker_id):
+        """
+            Attributes:
+                self.port: port number of the worker
+                self.worker_id: worker_id of the worker
+                self.pool: dictionary containing all the currently runnning tasks
+                           key: task_id
+                           value: remaining duration 
+                self.server_port: port number to use when sending messages to the master
+        """
         self.port=port
         self.worker_id=worker_id
         self.pool=dict()
@@ -18,7 +27,10 @@ class Worker:
     
    
     def listen_master(self): #the worker acts like the server
-        
+        """
+            This function listens for tasks to do.
+
+        """
         #rec_port=self.port
         recv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         recv_socket.bind(('',self.port))#listens on the specified port
@@ -29,7 +41,7 @@ class Worker:
             task = conn_socket.recv(2048).decode() #recv the msg for task launch by master
             self.execution_pool(task) #add task to the execution pool
             #self.logs('LAUNCHING',task,time.time()) #check if wall clock or user time???
-            recv_socket.send("task received")
+            recv_socket.send("task received".encode()) #Is this necessary?
             recv_socket.close()
         
         
@@ -50,13 +62,20 @@ class Worker:
 
     
     def execution_pool(self,task): #adds it to execution pool,with task_id and remaining time
-        task=task.decode()
+        # task=task.decode() #We've already done this in listen_master
         task=json.loads(task)
-        (task_id,remain_time)=list(task.items())[0]
+        # (task_id,remain_time)=list(task.items())[0] #I didnt understand this, so i added the following two lines
+        task_id = task['task_id']
+        remain_time = task['duration']
         self.pool[task_id]=remain_time
 
 
     def task_monitor(self):
+        """
+            With a time interval of one second, this function 
+            updates the remaining times of the tasks in the execution pool.
+            If any of the tasks has been completed, it updates the master about it
+        """
         while True:
             for task_id in self.pool.keys():
                 self.pool[task_id]-=1    #reduce time by 1 unit every clock cycle --sleep the thread for 1s

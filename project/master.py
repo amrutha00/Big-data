@@ -6,10 +6,12 @@ import random
 import sys
 from queue import Queue
 
-
-# import threading
-
 class Worker_details:
+    """
+        Class to store worker details
+        Methods: increment_slot
+                 decrement_slot
+    """
     def __init__(self, worker_id, slots, ip_addr, port):
         self.worker_id = worker_id
         self.no_of_slots = slots
@@ -36,40 +38,39 @@ class Worker_details:
 class Master:
     def __init__(self, algo):
         """
-            Initialises the job_pool, wait_queue lists and the workers dictionary
+            Initialises Master attributes
         """
         self.job_pool = []
         self.wait_queue = Queue()
-        self.workers = []  # changed to list
+        self.workers = dict()  # changed to dictionary
         self.algo = algo
         self.tasks_completed = set()
         task_mutex = threading.Lock() #for tasks_completed 
         mutex = threading.Lock() #for slots
-
+    
+    """
+    we are not using this at all!
+    Let's delete this
     def parse_job(self, job):
-        """
             Argument(s): the job text
             This function reads the json text, converts it into a python dictionary \
             and appends this dictinary to the job_pool
-        """
         content = json.loads(job)
         self.job_pool.append(content)
+    """
 
     def read_config(self, config):
         """
             Argument(s): config text
-            This function reads the json text, creates a dictionary for each worker. \	#change to object for each worker
-            Each worker is indexed by its id in the self.workers dicitonary
+            This function reads the json text, creates a worker_details object for each worker 
+            and appends the object to the workers list
         """
         content = json.loads(config)
         for worker in content['workers']:
             obj = Worker_details(worker['worker_id'], worker['slots'], '127.0.0.1', worker['port'])
-            self.workers.append(obj)
-        # self.workers[worker['worker_id']] = dict()
-        # self.workers[worker['worker_id']]['slots'] = worker['slots']
-        # self.workers[worker['worker_id']]['ip_addr'] = 127.0.0.1 #worker['ip_addr']
-        # self.workers[worker['worker_id']]['port'] = worker['port']
-        self.config_workers = self.workers.copy()  # what is this
+            # self.workers.append(obj)
+            self.workers[worker['worker_id']] = obj
+        self.config_workers = self.workers.copy()  # self.config_workers will store the original configuration details
 
     def get_available_workers(self):
         """
@@ -104,7 +105,7 @@ class Master:
         port_number = self.workers[worker_id].port
         task = json.dumps(task)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect(("localhost", port_number))
+            s.connect((self.workers[worker_id].ip_addr, port_number))
             s.send(task.encode())
 
         self.workers[worker_id].decrement_slot()
