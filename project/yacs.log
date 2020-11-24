@@ -1,44 +1,506 @@
-master.py:schedule_job:Started job with job id 0:2020-11-24 12:20:34,316
-worker2.py:execution_pool:Started task 0_M0:2020-11-24 12:20:34,335
-worker2.py:execution_pool:Started task 0_M1:2020-11-24 12:20:34,358
-master.py:schedule_job:Started job with job id 1:2020-11-24 12:20:34,464
-worker2.py:execution_pool:Started task 1_M0:2020-11-24 12:20:34,502
-worker3.py:execution_pool:Started task 1_M1:2020-11-24 12:20:34,561
-worker2.py:execution_pool:Started task 1_M2:2020-11-24 12:20:34,602
-worker3.py:task_monitor:Completed task 1_M1:2020-11-24 12:20:34,745
-worker2.py:task_monitor:Completed task 1_M0:2020-11-24 12:20:35,750
-master.py:schedule_job:Started job with job id 2:2020-11-24 12:20:36,316
-master.py:schedule_job:Started job with job id 3:2020-11-24 12:20:36,353
-worker2.py:execution_pool:Started task 3_M0:2020-11-24 12:20:36,372
-worker3.py:execution_pool:Started task 2_M0:2020-11-24 12:20:36,384
-worker2.py:execution_pool:Started task 3_M1:2020-11-24 12:20:36,438
-worker2.py:task_monitor:Completed task 0_M0:2020-11-24 12:20:36,752
-worker2.py:task_monitor:Completed task 3_M0:2020-11-24 12:20:36,753
-master.py:schedule_job:Started job with job id 4:2020-11-24 12:20:37,304
-worker2.py:execution_pool:Started task 4_M0:2020-11-24 12:20:37,377
-worker3.py:task_monitor:Completed task 2_M0:2020-11-24 12:20:37,756
-worker2.py:task_monitor:Completed task 0_M1:2020-11-24 12:20:37,758
-worker2.py:task_monitor:Completed task 1_M2:2020-11-24 12:20:37,759
-worker2.py:task_monitor:Completed task 3_M1:2020-11-24 12:20:37,759
-worker2.py:execution_pool:Started task 2_R0:2020-11-24 12:20:37,978
-worker2.py:execution_pool:Started task 1_R0:2020-11-24 12:20:37,990
-worker3.py:execution_pool:Started task 3_R0:2020-11-24 12:20:37,996
-worker3.py:execution_pool:Started task 0_R0:2020-11-24 12:20:38,032
-worker2.py:execution_pool:Started task 3_R1:2020-11-24 12:20:38,051
-worker1.py:execution_pool:Started task 0_R1:2020-11-24 12:20:38,070
-worker2.py:execution_pool:Started task 1_R1:2020-11-24 12:20:38,107
-worker2.py:task_monitor:Completed task 1_R0:2020-11-24 12:20:38,765
-worker3.py:task_monitor:Completed task 3_R0:2020-11-24 12:20:39,761
-worker3.py:task_monitor:Completed task 0_R0:2020-11-24 12:20:39,761
-worker2.py:task_monitor:Completed task 1_R1:2020-11-24 12:20:39,767
-master.py:schedule_all_tasks:Completed job 1:2020-11-24 12:20:39,941
-worker2.py:task_monitor:Completed task 4_M0:2020-11-24 12:20:40,771
-worker2.py:task_monitor:Completed task 2_R0:2020-11-24 12:20:40,772
-worker2.py:task_monitor:Completed task 3_R1:2020-11-24 12:20:40,773
-master.py:schedule_all_tasks:Completed job 2:2020-11-24 12:20:40,879
-master.py:schedule_all_tasks:Completed job 3:2020-11-24 12:20:40,910
-worker2.py:execution_pool:Started task 4_R0:2020-11-24 12:20:40,948
-worker1.py:task_monitor:Completed task 0_R1:2020-11-24 12:20:41,768
-master.py:schedule_all_tasks:Completed job 0:2020-11-24 12:20:41,813
-worker2.py:task_monitor:Completed task 4_R0:2020-11-24 12:20:44,785
-master.py:schedule_all_tasks:Completed job 4:2020-11-24 12:20:44,821
+master.py:schedule_job:Started job with job id 0:2020-11-24 17:05:12,078
+worker2.py:execution_pool:Started task 0_M0:2020-11-24 17:05:12,097
+worker3.py:execution_pool:Started task 0_M1:2020-11-24 17:05:12,120
+worker3.py:task_monitor:Completed task 0_M1:2020-11-24 17:05:14,008
+master.py:schedule_job:Started job with job id 1:2020-11-24 17:05:14,221
+worker3.py:execution_pool:Started task 1_M0:2020-11-24 17:05:14,274
+worker3.py:execution_pool:Started task 1_M1:2020-11-24 17:05:14,311
+worker1.py:execution_pool:Started task 1_M2:2020-11-24 17:05:14,372
+worker2.py:task_monitor:Completed task 0_M0:2020-11-24 17:05:15,015
+worker3.py:task_monitor:Completed task 1_M0:2020-11-24 17:05:15,015
+worker3.py:execution_pool:Started task 0_R0:2020-11-24 17:05:15,086
+worker3.py:task_monitor:Completed task 1_M1:2020-11-24 17:05:16,021
+master.py:schedule_job:Started job with job id 2:2020-11-24 17:05:16,763
+worker3.py:execution_pool:Started task 2_M0:2020-11-24 17:05:16,819
+worker1.py:execution_pool:Started task 2_M1:2020-11-24 17:05:16,882
+worker1.py:task_monitor:Completed task 1_M2:2020-11-24 17:05:17,017
+worker3.py:task_monitor:Completed task 2_M0:2020-11-24 17:05:17,023
+worker3.py:execution_pool:Started task 1_R0:2020-11-24 17:05:17,053
+worker2.py:execution_pool:Started task 1_R1:2020-11-24 17:05:17,090
+master.py:schedule_job:Started job with job id 3:2020-11-24 17:05:17,490
+worker1.py:execution_pool:Started task 3_M0:2020-11-24 17:05:17,533
+worker3.py:execution_pool:Started task 3_M1:2020-11-24 17:05:17,605
+worker1.py:task_monitor:Completed task 2_M1:2020-11-24 17:05:18,022
+worker1.py:task_monitor:Completed task 3_M0:2020-11-24 17:05:18,023
+worker3.py:task_monitor:Completed task 0_R0:2020-11-24 17:05:18,025
+worker3.py:task_monitor:Completed task 3_M1:2020-11-24 17:05:18,025
+worker1.py:execution_pool:Started task 2_R0:2020-11-24 17:05:18,084
+master.py:schedule_all_tasks:Completed job 0:2020-11-24 17:05:18,152
+worker3.py:execution_pool:Started task 2_R1:2020-11-24 17:05:18,175
+worker3.py:execution_pool:Started task 3_R0:2020-11-24 17:05:18,248
+worker1.py:execution_pool:Started task 3_R1:2020-11-24 17:05:18,348
+master.py:schedule_job:Started job with job id 4:2020-11-24 17:05:18,728
+worker1.py:execution_pool:Started task 4_M0:2020-11-24 17:05:18,784
+worker2.py:execution_pool:Started task 4_M1:2020-11-24 17:05:18,894
+master.py:schedule_job:Started job with job id 5:2020-11-24 17:05:18,929
+worker1.py:execution_pool:Started task 4_M2:2020-11-24 17:05:18,941
+worker1.py:execution_pool:Started task 5_M0:2020-11-24 17:05:18,959
+worker1.py:task_monitor:Completed task 2_R0:2020-11-24 17:05:19,026
+worker3.py:task_monitor:Completed task 3_R0:2020-11-24 17:05:19,026
+worker2.py:task_monitor:Completed task 4_M1:2020-11-24 17:05:19,026
+worker1.py:task_monitor:Completed task 3_R1:2020-11-24 17:05:19,028
+worker2.py:execution_pool:Started task 5_M1:2020-11-24 17:05:19,051
+master.py:schedule_all_tasks:Completed job 3:2020-11-24 17:05:19,248
+master.py:schedule_job:Started job with job id 6:2020-11-24 17:05:19,472
+worker1.py:execution_pool:Started task 6_M0:2020-11-24 17:05:19,566
+worker2.py:execution_pool:Started task 6_M1:2020-11-24 17:05:19,640
+worker1.py:execution_pool:Started task 6_M2:2020-11-24 17:05:19,755
+worker2.py:execution_pool:Started task 6_M3:2020-11-24 17:05:19,831
+worker3.py:task_monitor:Completed task 1_R0:2020-11-24 17:05:20,028
+worker1.py:task_monitor:Completed task 4_M0:2020-11-24 17:05:20,029
+worker3.py:task_monitor:Completed task 2_R1:2020-11-24 17:05:20,030
+worker1.py:task_monitor:Completed task 5_M0:2020-11-24 17:05:20,031
+master.py:schedule_all_tasks:Completed job 2:2020-11-24 17:05:20,209
+master.py:schedule_job:Started job with job id 7:2020-11-24 17:05:20,752
+worker3.py:execution_pool:Started task 7_M0:2020-11-24 17:05:20,758
+worker1.py:execution_pool:Started task 7_M1:2020-11-24 17:05:20,888
+worker2.py:task_monitor:Completed task 1_R1:2020-11-24 17:05:21,028
+worker2.py:task_monitor:Completed task 5_M1:2020-11-24 17:05:21,029
+worker2.py:task_monitor:Completed task 6_M3:2020-11-24 17:05:21,031
+worker1.py:task_monitor:Completed task 6_M0:2020-11-24 17:05:21,037
+worker1.py:task_monitor:Completed task 7_M1:2020-11-24 17:05:21,038
+worker1.py:execution_pool:Started task 7_M2:2020-11-24 17:05:21,079
+master.py:schedule_all_tasks:Completed job 1:2020-11-24 17:05:21,114
+worker2.py:execution_pool:Started task 7_M3:2020-11-24 17:05:21,157
+worker1.py:execution_pool:Started task 5_R0:2020-11-24 17:05:21,162
+worker1.py:execution_pool:Started task 5_R1:2020-11-24 17:05:21,237
+master.py:schedule_job:Started job with job id 8:2020-11-24 17:05:21,650
+worker2.py:execution_pool:Started task 8_M0:2020-11-24 17:05:21,787
+worker3.py:execution_pool:Started task 8_M1:2020-11-24 17:05:21,942
+worker3.py:execution_pool:Started task 8_M2:2020-11-24 17:05:21,976
+worker2.py:task_monitor:Completed task 6_M1:2020-11-24 17:05:22,036
+worker3.py:task_monitor:Completed task 7_M0:2020-11-24 17:05:22,041
+worker1.py:task_monitor:Completed task 4_M2:2020-11-24 17:05:22,042
+worker1.py:task_monitor:Completed task 5_R1:2020-11-24 17:05:22,043
+worker2.py:execution_pool:Started task 8_M3:2020-11-24 17:05:22,059
+worker2.py:execution_pool:Started task 4_R0:2020-11-24 17:05:22,239
+worker3.py:execution_pool:Started task 4_R1:2020-11-24 17:05:22,361
+master.py:schedule_job:Started job with job id 9:2020-11-24 17:05:23,042
+worker3.py:task_monitor:Completed task 8_M1:2020-11-24 17:05:23,046
+worker3.py:task_monitor:Completed task 8_M2:2020-11-24 17:05:23,047
+worker1.py:task_monitor:Completed task 6_M2:2020-11-24 17:05:23,048
+worker2.py:execution_pool:Started task 9_M0:2020-11-24 17:05:23,135
+worker3.py:execution_pool:Started task 6_R0:2020-11-24 17:05:23,210
+worker1.py:execution_pool:Started task 6_R1:2020-11-24 17:05:23,346
+worker3.py:execution_pool:Started task 9_M1:2020-11-24 17:05:23,362
+worker2.py:execution_pool:Started task 9_M2:2020-11-24 17:05:23,534
+master.py:schedule_job:Started job with job id 10:2020-11-24 17:05:24,024
+worker2.py:task_monitor:Completed task 8_M3:2020-11-24 17:05:24,042
+worker2.py:task_monitor:Completed task 4_R0:2020-11-24 17:05:24,043
+worker1.py:task_monitor:Completed task 7_M2:2020-11-24 17:05:24,053
+worker1.py:task_monitor:Completed task 6_R1:2020-11-24 17:05:24,054
+worker1.py:execution_pool:Started task 10_M0:2020-11-24 17:05:24,107
+master.py:schedule_job:Started job with job id 11:2020-11-24 17:05:24,525
+worker1.py:execution_pool:Started task 11_M0:2020-11-24 17:05:24,674
+worker2.py:execution_pool:Started task 11_M1:2020-11-24 17:05:24,806
+worker2.py:execution_pool:Started task 11_M2:2020-11-24 17:05:24,865
+master.py:schedule_job:Started job with job id 12:2020-11-24 17:05:24,602
+worker1.py:execution_pool:Started task 12_M0:2020-11-24 17:05:24,936
+worker2.py:execution_pool:Started task 12_M1:2020-11-24 17:05:25,037
+worker2.py:task_monitor:Completed task 7_M3:2020-11-24 17:05:25,047
+worker2.py:task_monitor:Completed task 8_M0:2020-11-24 17:05:25,048
+worker2.py:task_monitor:Completed task 9_M2:2020-11-24 17:05:25,049
+worker3.py:task_monitor:Completed task 4_R1:2020-11-24 17:05:25,057
+worker3.py:task_monitor:Completed task 6_R0:2020-11-24 17:05:25,059
+worker1.py:task_monitor:Completed task 5_R0:2020-11-24 17:05:25,059
+worker2.py:execution_pool:Started task 8_R0:2020-11-24 17:05:25,209
+worker1.py:execution_pool:Started task 12_M2:2020-11-24 17:05:25,210
+master.py:schedule_all_tasks:Completed job 6:2020-11-24 17:05:25,221
+worker2.py:execution_pool:Started task 7_R0:2020-11-24 17:05:25,232
+worker2.py:execution_pool:Started task 12_M3:2020-11-24 17:05:25,233
+worker1.py:execution_pool:Started task 7_R1:2020-11-24 17:05:25,261
+master.py:schedule_all_tasks:Completed job 4:2020-11-24 17:05:25,232
+worker1.py:execution_pool:Started task 8_R1:2020-11-24 17:05:25,309
+master.py:schedule_all_tasks:Completed job 5:2020-11-24 17:05:25,233
+master.py:schedule_job:Started job with job id 13:2020-11-24 17:05:25,240
+worker3.py:execution_pool:Started task 13_M0:2020-11-24 17:05:25,619
+worker2.py:task_monitor:Completed task 9_M0:2020-11-24 17:05:26,059
+worker2.py:task_monitor:Completed task 12_M3:2020-11-24 17:05:26,060
+worker3.py:task_monitor:Completed task 9_M1:2020-11-24 17:05:26,063
+worker1.py:task_monitor:Completed task 10_M0:2020-11-24 17:05:26,064
+worker1.py:task_monitor:Completed task 11_M0:2020-11-24 17:05:26,065
+worker3.py:execution_pool:Started task 13_M1:2020-11-24 17:05:26,180
+worker2.py:execution_pool:Started task 13_M2:2020-11-24 17:05:26,332
+worker2.py:execution_pool:Started task 10_R0:2020-11-24 17:05:26,376
+master.py:schedule_job:Started job with job id 14:2020-11-24 17:05:26,454
+worker3.py:execution_pool:Started task 9_R0:2020-11-24 17:05:26,603
+worker1.py:execution_pool:Started task 13_M3:2020-11-24 17:05:26,760
+worker2.py:task_monitor:Completed task 11_M2:2020-11-24 17:05:27,065
+worker2.py:task_monitor:Completed task 8_R0:2020-11-24 17:05:27,066
+worker1.py:task_monitor:Completed task 12_M0:2020-11-24 17:05:27,070
+worker1.py:task_monitor:Completed task 12_M2:2020-11-24 17:05:27,071
+worker2.py:execution_pool:Started task 14_M0:2020-11-24 17:05:27,345
+master.py:schedule_job:Started job with job id 15:2020-11-24 17:05:27,431
+worker2.py:execution_pool:Started task 14_M1:2020-11-24 17:05:27,486
+worker1.py:execution_pool:Started task 15_M0:2020-11-24 17:05:27,679
+worker1.py:execution_pool:Started task 14_M2:2020-11-24 17:05:27,697
+worker3.py:task_monitor:Completed task 13_M1:2020-11-24 17:05:28,075
+worker1.py:task_monitor:Completed task 13_M3:2020-11-24 17:05:28,075
+worker2.py:task_monitor:Completed task 11_M1:2020-11-24 17:05:28,075
+worker1.py:task_monitor:Completed task 14_M2:2020-11-24 17:05:28,076
+worker2.py:task_monitor:Completed task 12_M1:2020-11-24 17:05:28,076
+worker2.py:task_monitor:Completed task 10_R0:2020-11-24 17:05:28,077
+worker2.py:execution_pool:Started task 15_M1:2020-11-24 17:05:28,199
+worker1.py:execution_pool:Started task 11_R0:2020-11-24 17:05:28,235
+master.py:schedule_job:Started job with job id 16:2020-11-24 17:05:28,259
+worker1.py:execution_pool:Started task 16_M0:2020-11-24 17:05:28,461
+worker3.py:execution_pool:Started task 12_R0:2020-11-24 17:05:28,541
+worker3.py:execution_pool:Started task 16_M1:2020-11-24 17:05:28,649
+master.py:schedule_all_tasks:Completed job 10:2020-11-24 17:05:28,655
+worker2.py:execution_pool:Started task 12_R1:2020-11-24 17:05:28,759
+worker1.py:task_monitor:Completed task 7_R1:2020-11-24 17:05:29,081
+worker2.py:task_monitor:Completed task 7_R0:2020-11-24 17:05:29,081
+worker3.py:task_monitor:Completed task 13_M0:2020-11-24 17:05:29,081
+worker2.py:task_monitor:Completed task 13_M2:2020-11-24 17:05:29,082
+worker3.py:task_monitor:Completed task 9_R0:2020-11-24 17:05:29,082
+worker1.py:task_monitor:Completed task 8_R1:2020-11-24 17:05:29,083
+worker2.py:task_monitor:Completed task 15_M1:2020-11-24 17:05:29,084
+worker1.py:task_monitor:Completed task 15_M0:2020-11-24 17:05:29,084
+worker2.py:execution_pool:Started task 15_M2:2020-11-24 17:05:29,281
+worker2.py:execution_pool:Started task 16_M2:2020-11-24 17:05:29,293
+master.py:schedule_job:Started job with job id 17:2020-11-24 17:05:29,327
+master.py:schedule_all_tasks:Completed job 7:2020-11-24 17:05:29,384
+worker1.py:execution_pool:Started task 17_M0:2020-11-24 17:05:29,406
+master.py:schedule_all_tasks:Completed job 9:2020-11-24 17:05:29,455
+worker3.py:execution_pool:Started task 16_M3:2020-11-24 17:05:29,456
+worker2.py:execution_pool:Started task 13_R0:2020-11-24 17:05:29,576
+master.py:schedule_all_tasks:Completed job 8:2020-11-24 17:05:29,581
+worker1.py:execution_pool:Started task 17_M1:2020-11-24 17:05:29,775
+worker1.py:execution_pool:Started task 13_R1:2020-11-24 17:05:29,786
+worker1.py:execution_pool:Started task 17_M2:2020-11-24 17:05:29,914
+worker3.py:task_monitor:Completed task 12_R0:2020-11-24 17:05:30,087
+worker1.py:task_monitor:Completed task 17_M1:2020-11-24 17:05:30,089
+worker2.py:task_monitor:Completed task 14_M0:2020-11-24 17:05:30,089
+worker1.py:task_monitor:Completed task 13_R1:2020-11-24 17:05:30,090
+worker2.py:task_monitor:Completed task 16_M2:2020-11-24 17:05:30,090
+worker2.py:task_monitor:Completed task 13_R0:2020-11-24 17:05:30,091
+master.py:schedule_all_tasks:Completed job 13:2020-11-24 17:05:31,074
+worker3.py:task_monitor:Completed task 16_M1:2020-11-24 17:05:31,091
+worker1.py:task_monitor:Completed task 11_R0:2020-11-24 17:05:31,091
+worker1.py:task_monitor:Completed task 17_M2:2020-11-24 17:05:31,092
+worker2.py:task_monitor:Completed task 14_M1:2020-11-24 17:05:31,097
+worker2.py:task_monitor:Completed task 12_R1:2020-11-24 17:05:31,097
+worker2.py:task_monitor:Completed task 15_M2:2020-11-24 17:05:31,098
+master.py:schedule_all_tasks:Completed job 11:2020-11-24 17:05:31,132
+master.py:schedule_all_tasks:Completed job 12:2020-11-24 17:05:31,308
+worker2.py:execution_pool:Started task 14_R0:2020-11-24 17:05:31,333
+worker3.py:execution_pool:Started task 15_R0:2020-11-24 17:05:31,405
+master.py:schedule_job:Started job with job id 18:2020-11-24 17:05:31,871
+worker2.py:execution_pool:Started task 18_M0:2020-11-24 17:05:31,954
+worker1.py:task_monitor:Completed task 16_M0:2020-11-24 17:05:32,094
+worker3.py:task_monitor:Completed task 16_M3:2020-11-24 17:05:32,094
+master.py:schedule_job:Started job with job id 19:2020-11-24 17:05:32,296
+worker3.py:execution_pool:Started task 16_R0:2020-11-24 17:05:32,308
+worker1.py:execution_pool:Started task 19_M0:2020-11-24 17:05:32,367
+worker3.py:execution_pool:Started task 19_M1:2020-11-24 17:05:32,504
+master.py:schedule_job:Started job with job id 20:2020-11-24 17:05:32,612
+worker2.py:execution_pool:Started task 20_M0:2020-11-24 17:05:32,813
+worker1.py:execution_pool:Started task 20_M1:2020-11-24 17:05:32,971
+worker3.py:task_monitor:Completed task 15_R0:2020-11-24 17:05:33,098
+worker1.py:task_monitor:Completed task 17_M0:2020-11-24 17:05:33,098
+worker1.py:task_monitor:Completed task 19_M0:2020-11-24 17:05:33,099
+worker2.py:task_monitor:Completed task 20_M0:2020-11-24 17:05:33,102
+master.py:schedule_all_tasks:Completed job 15:2020-11-24 17:05:33,136
+worker2.py:execution_pool:Started task 17_R0:2020-11-24 17:05:33,375
+worker1.py:execution_pool:Started task 17_R1:2020-11-24 17:05:33,465
+worker2.py:task_monitor:Completed task 14_R0:2020-11-24 17:05:34,103
+worker2.py:task_monitor:Completed task 18_M0:2020-11-24 17:05:34,104
+worker2.py:task_monitor:Completed task 17_R0:2020-11-24 17:05:34,104
+master.py:schedule_all_tasks:Completed job 14:2020-11-24 17:05:34,193
+worker2.py:execution_pool:Started task 18_R0:2020-11-24 17:05:34,237
+worker1.py:execution_pool:Started task 18_R1:2020-11-24 17:05:34,444
+worker3.py:task_monitor:Completed task 19_M1:2020-11-24 17:05:35,107
+worker3.py:execution_pool:Started task 19_R0:2020-11-24 17:05:35,407
+worker1.py:execution_pool:Started task 19_R1:2020-11-24 17:05:35,564
+worker3.py:task_monitor:Completed task 16_R0:2020-11-24 17:05:36,112
+worker1.py:task_monitor:Completed task 20_M1:2020-11-24 17:05:36,112
+master.py:schedule_all_tasks:Completed job 16:2020-11-24 17:05:36,136
+worker1.py:execution_pool:Started task 20_R0:2020-11-24 17:05:36,226
+master.py:schedule_job:Started job with job id 21:2020-11-24 17:05:36,268
+worker3.py:execution_pool:Started task 21_M0:2020-11-24 17:05:36,328
+master.py:schedule_job:Started job with job id 22:2020-11-24 17:05:36,392
+worker2.py:execution_pool:Started task 22_M0:2020-11-24 17:05:36,439
+worker2.py:execution_pool:Started task 21_M1:2020-11-24 17:05:36,482
+worker2.py:execution_pool:Started task 22_M1:2020-11-24 17:05:36,591
+master.py:schedule_job:Started job with job id 23:2020-11-24 17:05:36,738
+worker2.py:execution_pool:Started task 23_M0:2020-11-24 17:05:36,781
+worker2.py:execution_pool:Started task 23_M1:2020-11-24 17:05:36,914
+worker3.py:execution_pool:Started task 23_M2:2020-11-24 17:05:37,069
+worker1.py:task_monitor:Completed task 17_R1:2020-11-24 17:05:37,117
+worker2.py:task_monitor:Completed task 18_R0:2020-11-24 17:05:37,117
+worker3.py:task_monitor:Completed task 19_R0:2020-11-24 17:05:37,117
+worker3.py:task_monitor:Completed task 23_M2:2020-11-24 17:05:37,118
+worker2.py:task_monitor:Completed task 22_M1:2020-11-24 17:05:37,118
+worker1.py:execution_pool:Started task 23_M3:2020-11-24 17:05:37,186
+master.py:schedule_all_tasks:Completed job 17:2020-11-24 17:05:37,257
+worker1.py:task_monitor:Completed task 18_R1:2020-11-24 17:05:38,123
+worker2.py:task_monitor:Completed task 23_M1:2020-11-24 17:05:38,123
+worker3.py:task_monitor:Completed task 21_M0:2020-11-24 17:05:38,123
+worker1.py:task_monitor:Completed task 23_M3:2020-11-24 17:05:38,124
+master.py:schedule_all_tasks:Completed job 18:2020-11-24 17:05:38,231
+master.py:schedule_job:Started job with job id 24:2020-11-24 17:05:38,695
+worker3.py:execution_pool:Started task 24_M0:2020-11-24 17:05:38,904
+worker1.py:execution_pool:Started task 24_M1:2020-11-24 17:05:39,035
+worker2.py:task_monitor:Completed task 23_M0:2020-11-24 17:05:39,125
+worker1.py:task_monitor:Completed task 19_R1:2020-11-24 17:05:39,125
+worker1.py:task_monitor:Completed task 20_R0:2020-11-24 17:05:39,126
+master.py:schedule_all_tasks:Completed job 19:2020-11-24 17:05:39,166
+worker1.py:execution_pool:Started task 23_R0:2020-11-24 17:05:39,213
+master.py:schedule_job:Started job with job id 25:2020-11-24 17:05:39,166
+master.py:schedule_all_tasks:Completed job 20:2020-11-24 17:05:39,203
+master.py:schedule_job:Started job with job id 26:2020-11-24 17:05:39,239
+worker2.py:execution_pool:Started task 25_M0:2020-11-24 17:05:39,319
+worker1.py:execution_pool:Started task 23_R1:2020-11-24 17:05:39,333
+worker1.py:execution_pool:Started task 25_M1:2020-11-24 17:05:39,382
+worker2.py:execution_pool:Started task 26_M0:2020-11-24 17:05:39,382
+master.py:schedule_job:Started job with job id 27:2020-11-24 17:05:39,471
+worker3.py:execution_pool:Started task 26_M1:2020-11-24 17:05:39,494
+worker2.py:execution_pool:Started task 25_M2:2020-11-24 17:05:39,495
+worker3.py:execution_pool:Started task 27_M0:2020-11-24 17:05:39,586
+worker2.py:execution_pool:Started task 25_M3:2020-11-24 17:05:39,664
+worker1.py:execution_pool:Started task 27_M1:2020-11-24 17:05:39,705
+master.py:schedule_job:Started job with job id 28:2020-11-24 17:05:39,887
+worker2.py:execution_pool:Started task 28_M0:2020-11-24 17:05:39,971
+worker2.py:task_monitor:Completed task 22_M0:2020-11-24 17:05:40,127
+worker2.py:task_monitor:Completed task 21_M1:2020-11-24 17:05:40,128
+worker2.py:execution_pool:Started task 22_R0:2020-11-24 17:05:40,253
+worker2.py:execution_pool:Started task 22_R1:2020-11-24 17:05:40,546
+worker1.py:task_monitor:Completed task 23_R0:2020-11-24 17:05:41,129
+worker3.py:task_monitor:Completed task 26_M1:2020-11-24 17:05:41,129
+worker3.py:task_monitor:Completed task 27_M0:2020-11-24 17:05:41,129
+worker1.py:task_monitor:Completed task 23_R1:2020-11-24 17:05:41,129
+worker1.py:task_monitor:Completed task 25_M1:2020-11-24 17:05:41,130
+worker2.py:task_monitor:Completed task 26_M0:2020-11-24 17:05:41,133
+worker2.py:task_monitor:Completed task 25_M2:2020-11-24 17:05:41,134
+worker2.py:task_monitor:Completed task 22_R0:2020-11-24 17:05:41,135
+worker1.py:execution_pool:Started task 21_R0:2020-11-24 17:05:41,273
+master.py:schedule_job:Started job with job id 29:2020-11-24 17:05:41,284
+worker3.py:execution_pool:Started task 21_R1:2020-11-24 17:05:41,375
+master.py:schedule_job:Started job with job id 30:2020-11-24 17:05:41,431
+worker3.py:execution_pool:Started task 29_M0:2020-11-24 17:05:41,601
+master.py:schedule_job:Started job with job id 31:2020-11-24 17:05:41,511
+worker3.py:execution_pool:Started task 30_M0:2020-11-24 17:05:41,668
+master.py:schedule_all_tasks:Completed job 23:2020-11-24 17:05:41,686
+worker2.py:execution_pool:Started task 26_R0:2020-11-24 17:05:41,885
+worker3.py:execution_pool:Started task 31_M0:2020-11-24 17:05:41,902
+worker2.py:execution_pool:Started task 30_M1:2020-11-24 17:05:41,943
+worker1.py:execution_pool:Started task 31_M1:2020-11-24 17:05:42,127
+worker3.py:task_monitor:Completed task 24_M0:2020-11-24 17:05:42,134
+worker3.py:task_monitor:Completed task 21_R1:2020-11-24 17:05:42,134
+worker1.py:task_monitor:Completed task 24_M1:2020-11-24 17:05:42,135
+worker3.py:task_monitor:Completed task 30_M0:2020-11-24 17:05:42,135
+worker1.py:task_monitor:Completed task 27_M1:2020-11-24 17:05:42,136
+worker2.py:task_monitor:Completed task 25_M0:2020-11-24 17:05:42,140
+worker2.py:task_monitor:Completed task 25_M3:2020-11-24 17:05:42,141
+worker2.py:task_monitor:Completed task 26_R0:2020-11-24 17:05:42,142
+worker2.py:execution_pool:Started task 26_R1:2020-11-24 17:05:42,216
+worker1.py:execution_pool:Started task 31_M2:2020-11-24 17:05:42,364
+worker1.py:execution_pool:Started task 24_R0:2020-11-24 17:05:42,568
+worker1.py:execution_pool:Started task 27_R0:2020-11-24 17:05:42,758
+worker2.py:execution_pool:Started task 25_R0:2020-11-24 17:05:42,872
+worker1.py:task_monitor:Completed task 31_M1:2020-11-24 17:05:43,138
+worker1.py:task_monitor:Completed task 27_R0:2020-11-24 17:05:43,139
+worker2.py:task_monitor:Completed task 28_M0:2020-11-24 17:05:43,146
+master.py:schedule_all_tasks:Completed job 27:2020-11-24 17:05:43,193
+worker2.py:execution_pool:Started task 28_R0:2020-11-24 17:05:43,358
+worker3.py:task_monitor:Completed task 31_M0:2020-11-24 17:05:44,138
+worker2.py:task_monitor:Completed task 22_R1:2020-11-24 17:05:44,149
+worker2.py:task_monitor:Completed task 26_R1:2020-11-24 17:05:44,150
+worker2.py:task_monitor:Completed task 28_R0:2020-11-24 17:05:44,151
+master.py:schedule_all_tasks:Completed job 22:2020-11-24 17:05:44,316
+master.py:schedule_all_tasks:Completed job 26:2020-11-24 17:05:44,334
+master.py:schedule_all_tasks:Completed job 28:2020-11-24 17:05:44,513
+master.py:schedule_job:Started job with job id 32:2020-11-24 17:05:45,132
+worker3.py:task_monitor:Completed task 29_M0:2020-11-24 17:05:45,140
+worker1.py:task_monitor:Completed task 21_R0:2020-11-24 17:05:45,146
+worker1.py:task_monitor:Completed task 24_R0:2020-11-24 17:05:45,146
+worker2.py:task_monitor:Completed task 30_M1:2020-11-24 17:05:45,156
+worker2.py:task_monitor:Completed task 25_R0:2020-11-24 17:05:45,156
+worker1.py:execution_pool:Started task 32_M0:2020-11-24 17:05:45,256
+master.py:schedule_all_tasks:Completed job 21:2020-11-24 17:05:45,274
+worker3.py:execution_pool:Started task 32_M1:2020-11-24 17:05:45,328
+master.py:schedule_all_tasks:Completed job 24:2020-11-24 17:05:45,334
+worker1.py:execution_pool:Started task 29_R0:2020-11-24 17:05:45,346
+worker3.py:execution_pool:Started task 30_R0:2020-11-24 17:05:45,393
+worker1.py:execution_pool:Started task 32_M2:2020-11-24 17:05:45,423
+master.py:schedule_all_tasks:Completed job 25:2020-11-24 17:05:45,484
+master.py:schedule_job:Started job with job id 33:2020-11-24 17:05:45,981
+worker1.py:execution_pool:Started task 33_M0:2020-11-24 17:05:46,091
+worker1.py:task_monitor:Completed task 31_M2:2020-11-24 17:05:46,151
+worker1.py:task_monitor:Completed task 33_M0:2020-11-24 17:05:46,152
+worker2.py:execution_pool:Started task 31_R0:2020-11-24 17:05:46,252
+worker3.py:execution_pool:Started task 33_R0:2020-11-24 17:05:46,265
+worker2.py:execution_pool:Started task 33_R1:2020-11-24 17:05:46,392
+worker3.py:execution_pool:Started task 31_R1:2020-11-24 17:05:46,432
+worker3.py:task_monitor:Completed task 31_R1:2020-11-24 17:05:47,151
+worker3.py:task_monitor:Completed task 30_R0:2020-11-24 17:05:48,152
+worker3.py:task_monitor:Completed task 33_R0:2020-11-24 17:05:48,152
+worker1.py:task_monitor:Completed task 32_M0:2020-11-24 17:05:48,158
+master.py:schedule_all_tasks:Completed job 30:2020-11-24 17:05:48,319
+worker3.py:task_monitor:Completed task 32_M1:2020-11-24 17:05:49,156
+worker1.py:task_monitor:Completed task 29_R0:2020-11-24 17:05:49,160
+worker1.py:task_monitor:Completed task 32_M2:2020-11-24 17:05:49,161
+worker2.py:task_monitor:Completed task 31_R0:2020-11-24 17:05:49,166
+master.py:schedule_all_tasks:Completed job 29:2020-11-24 17:05:49,285
+master.py:schedule_job:Started job with job id 34:2020-11-24 17:05:49,302
+master.py:schedule_all_tasks:Completed job 31:2020-11-24 17:05:49,338
+worker2.py:execution_pool:Started task 34_M0:2020-11-24 17:05:49,338
+worker3.py:execution_pool:Started task 32_R0:2020-11-24 17:05:49,345
+worker2.py:task_monitor:Completed task 33_R1:2020-11-24 17:05:50,169
+worker2.py:task_monitor:Completed task 34_M0:2020-11-24 17:05:50,169
+master.py:schedule_all_tasks:Completed job 33:2020-11-24 17:05:50,185
+worker1.py:execution_pool:Started task 34_R0:2020-11-24 17:05:50,248
+master.py:schedule_job:Started job with job id 35:2020-11-24 17:05:50,844
+worker1.py:execution_pool:Started task 35_M0:2020-11-24 17:05:50,929
+worker2.py:execution_pool:Started task 35_M1:2020-11-24 17:05:50,995
+worker2.py:execution_pool:Started task 35_M2:2020-11-24 17:05:51,053
+worker3.py:execution_pool:Started task 35_M3:2020-11-24 17:05:51,120
+master.py:schedule_job:Started job with job id 36:2020-11-24 17:05:51,770
+worker3.py:execution_pool:Started task 36_M0:2020-11-24 17:05:51,962
+worker2.py:execution_pool:Started task 36_M1:2020-11-24 17:05:52,068
+worker2.py:task_monitor:Completed task 35_M1:2020-11-24 17:05:52,178
+worker2.py:task_monitor:Completed task 35_M2:2020-11-24 17:05:52,179
+master.py:schedule_job:Started job with job id 37:2020-11-24 17:05:52,660
+worker2.py:execution_pool:Started task 37_M0:2020-11-24 17:05:52,739
+worker3.py:task_monitor:Completed task 32_R0:2020-11-24 17:05:53,169
+master.py:schedule_all_tasks:Completed job 32:2020-11-24 17:05:53,244
+master.py:schedule_job:Started job with job id 38:2020-11-24 17:05:53,269
+worker1.py:execution_pool:Started task 38_M0:2020-11-24 17:05:53,393
+worker2.py:execution_pool:Started task 38_M1:2020-11-24 17:05:53,442
+worker3.py:task_monitor:Completed task 35_M3:2020-11-24 17:05:54,174
+worker1.py:task_monitor:Completed task 34_R0:2020-11-24 17:05:54,178
+worker1.py:task_monitor:Completed task 35_M0:2020-11-24 17:05:54,179
+worker2.py:task_monitor:Completed task 38_M1:2020-11-24 17:05:54,187
+master.py:schedule_all_tasks:Completed job 34:2020-11-24 17:05:54,233
+worker3.py:execution_pool:Started task 35_R0:2020-11-24 17:05:54,361
+worker3.py:execution_pool:Started task 35_R1:2020-11-24 17:05:54,452
+worker3.py:task_monitor:Completed task 36_M0:2020-11-24 17:05:55,176
+worker3.py:task_monitor:Completed task 35_R1:2020-11-24 17:05:55,177
+worker2.py:task_monitor:Completed task 36_M1:2020-11-24 17:05:55,188
+worker2.py:task_monitor:Completed task 37_M0:2020-11-24 17:05:55,189
+worker3.py:execution_pool:Started task 36_R0:2020-11-24 17:05:55,276
+worker3.py:execution_pool:Started task 37_R0:2020-11-24 17:05:55,332
+worker3.py:execution_pool:Started task 36_R1:2020-11-24 17:05:55,357
+worker1.py:task_monitor:Completed task 38_M0:2020-11-24 17:05:56,187
+worker2.py:execution_pool:Started task 38_R0:2020-11-24 17:05:56,259
+master.py:schedule_job:Started job with job id 39:2020-11-24 17:05:56,277
+worker2.py:execution_pool:Started task 39_M0:2020-11-24 17:05:56,367
+worker2.py:execution_pool:Started task 39_M1:2020-11-24 17:05:56,491
+worker2.py:execution_pool:Started task 39_M2:2020-11-24 17:05:56,586
+worker1.py:execution_pool:Started task 39_M3:2020-11-24 17:05:56,683
+master.py:schedule_job:Started job with job id 40:2020-11-24 17:05:57,079
+worker3.py:task_monitor:Completed task 35_R0:2020-11-24 17:05:57,184
+worker3.py:task_monitor:Completed task 36_R0:2020-11-24 17:05:57,185
+worker3.py:task_monitor:Completed task 36_R1:2020-11-24 17:05:57,185
+worker1.py:task_monitor:Completed task 39_M3:2020-11-24 17:05:57,192
+worker1.py:execution_pool:Started task 40_M0:2020-11-24 17:05:57,203
+master.py:schedule_all_tasks:Completed job 35:2020-11-24 17:05:57,221
+master.py:schedule_all_tasks:Completed job 36:2020-11-24 17:05:57,346
+master.py:schedule_job:Started job with job id 41:2020-11-24 17:05:58,109
+worker2.py:task_monitor:Completed task 38_R0:2020-11-24 17:05:58,197
+worker3.py:execution_pool:Started task 41_M0:2020-11-24 17:05:58,238
+master.py:schedule_all_tasks:Completed job 38:2020-11-24 17:05:58,267
+worker2.py:execution_pool:Started task 41_M1:2020-11-24 17:05:58,354
+worker3.py:task_monitor:Completed task 37_R0:2020-11-24 17:05:59,192
+worker2.py:task_monitor:Completed task 39_M0:2020-11-24 17:05:59,201
+worker1.py:task_monitor:Completed task 40_M0:2020-11-24 17:05:59,201
+worker2.py:task_monitor:Completed task 39_M2:2020-11-24 17:05:59,202
+master.py:schedule_all_tasks:Completed job 37:2020-11-24 17:05:59,252
+master.py:schedule_job:Started job with job id 42:2020-11-24 17:05:59,324
+worker3.py:execution_pool:Started task 40_R0:2020-11-24 17:05:59,366
+worker2.py:execution_pool:Started task 42_M0:2020-11-24 17:05:59,390
+worker3.py:execution_pool:Started task 40_R1:2020-11-24 17:05:59,468
+worker2.py:execution_pool:Started task 42_M1:2020-11-24 17:05:59,493
+worker1.py:execution_pool:Started task 42_M2:2020-11-24 17:05:59,551
+worker2.py:task_monitor:Completed task 39_M1:2020-11-24 17:06:00,204
+worker2.py:task_monitor:Completed task 42_M0:2020-11-24 17:06:00,205
+worker2.py:task_monitor:Completed task 42_M1:2020-11-24 17:06:00,206
+worker1.py:execution_pool:Started task 39_R0:2020-11-24 17:06:00,290
+worker2.py:execution_pool:Started task 39_R1:2020-11-24 17:06:00,426
+worker3.py:task_monitor:Completed task 41_M0:2020-11-24 17:06:01,200
+worker3.py:task_monitor:Completed task 40_R1:2020-11-24 17:06:01,201
+worker2.py:task_monitor:Completed task 39_R1:2020-11-24 17:06:01,208
+worker1.py:task_monitor:Completed task 42_M2:2020-11-24 17:06:01,208
+master.py:schedule_job:Started job with job id 43:2020-11-24 17:06:01,527
+worker2.py:execution_pool:Started task 42_R0:2020-11-24 17:06:01,533
+worker1.py:execution_pool:Started task 43_M0:2020-11-24 17:06:01,551
+worker2.py:execution_pool:Started task 43_M1:2020-11-24 17:06:01,592
+worker3.py:execution_pool:Started task 43_M2:2020-11-24 17:06:01,693
+worker3.py:execution_pool:Started task 43_M3:2020-11-24 17:06:01,795
+worker2.py:task_monitor:Completed task 41_M1:2020-11-24 17:06:02,209
+worker1.py:task_monitor:Completed task 43_M0:2020-11-24 17:06:02,209
+worker2.py:execution_pool:Started task 41_R0:2020-11-24 17:06:02,299
+worker2.py:execution_pool:Started task 41_R1:2020-11-24 17:06:02,392
+worker3.py:task_monitor:Completed task 40_R0:2020-11-24 17:06:03,209
+worker3.py:task_monitor:Completed task 43_M2:2020-11-24 17:06:03,210
+worker3.py:task_monitor:Completed task 43_M3:2020-11-24 17:06:03,210
+worker1.py:task_monitor:Completed task 39_R0:2020-11-24 17:06:03,210
+worker2.py:task_monitor:Completed task 42_R0:2020-11-24 17:06:03,210
+worker2.py:task_monitor:Completed task 43_M1:2020-11-24 17:06:03,211
+master.py:schedule_all_tasks:Completed job 40:2020-11-24 17:06:03,369
+master.py:schedule_all_tasks:Completed job 42:2020-11-24 17:06:03,479
+master.py:schedule_all_tasks:Completed job 39:2020-11-24 17:06:03,546
+worker3.py:execution_pool:Started task 43_R0:2020-11-24 17:06:03,565
+master.py:schedule_job:Started job with job id 44:2020-11-24 17:06:03,783
+worker2.py:execution_pool:Started task 44_M0:2020-11-24 17:06:03,835
+worker2.py:execution_pool:Started task 44_M1:2020-11-24 17:06:03,900
+worker1.py:execution_pool:Started task 44_M2:2020-11-24 17:06:03,967
+worker1.py:task_monitor:Completed task 44_M2:2020-11-24 17:06:04,213
+worker2.py:task_monitor:Completed task 41_R0:2020-11-24 17:06:05,217
+worker2.py:task_monitor:Completed task 44_M0:2020-11-24 17:06:05,218
+master.py:schedule_job:Started job with job id 45:2020-11-24 17:06:05,518
+worker2.py:execution_pool:Started task 45_M0:2020-11-24 17:06:05,608
+worker1.py:execution_pool:Started task 45_M1:2020-11-24 17:06:05,699
+worker2.py:task_monitor:Completed task 41_R1:2020-11-24 17:06:06,223
+master.py:schedule_all_tasks:Completed job 41:2020-11-24 17:06:06,258
+worker3.py:task_monitor:Completed task 43_R0:2020-11-24 17:06:07,222
+worker1.py:task_monitor:Completed task 45_M1:2020-11-24 17:06:07,223
+worker2.py:task_monitor:Completed task 44_M1:2020-11-24 17:06:07,226
+master.py:schedule_all_tasks:Completed job 43:2020-11-24 17:06:07,231
+worker1.py:execution_pool:Started task 44_R0:2020-11-24 17:06:07,321
+worker1.py:task_monitor:Completed task 44_R0:2020-11-24 17:06:08,226
+master.py:schedule_all_tasks:Completed job 44:2020-11-24 17:06:08,255
+master.py:schedule_job:Started job with job id 46:2020-11-24 17:06:08,856
+worker1.py:execution_pool:Started task 46_M0:2020-11-24 17:06:08,898
+worker1.py:execution_pool:Started task 46_M1:2020-11-24 17:06:08,945
+worker1.py:task_monitor:Completed task 46_M1:2020-11-24 17:06:09,231
+worker2.py:task_monitor:Completed task 45_M0:2020-11-24 17:06:09,234
+worker2.py:execution_pool:Started task 45_R0:2020-11-24 17:06:09,369
+worker2.py:execution_pool:Started task 45_R1:2020-11-24 17:06:09,422
+master.py:schedule_job:Started job with job id 47:2020-11-24 17:06:10,082
+worker3.py:execution_pool:Started task 47_M0:2020-11-24 17:06:10,133
+worker2.py:execution_pool:Started task 47_M1:2020-11-24 17:06:10,187
+worker3.py:task_monitor:Completed task 47_M0:2020-11-24 17:06:10,235
+worker2.py:task_monitor:Completed task 45_R0:2020-11-24 17:06:10,237
+worker2.py:task_monitor:Completed task 45_R1:2020-11-24 17:06:10,238
+master.py:schedule_all_tasks:Completed job 45:2020-11-24 17:06:10,475
+worker1.py:task_monitor:Completed task 46_M0:2020-11-24 17:06:12,240
+worker2.py:task_monitor:Completed task 47_M1:2020-11-24 17:06:12,244
+worker2.py:execution_pool:Started task 46_R0:2020-11-24 17:06:12,264
+worker3.py:execution_pool:Started task 47_R0:2020-11-24 17:06:12,269
+worker3.py:execution_pool:Started task 47_R1:2020-11-24 17:06:12,288
+worker2.py:execution_pool:Started task 46_R1:2020-11-24 17:06:12,328
+master.py:schedule_job:Started job with job id 48:2020-11-24 17:06:12,470
+worker3.py:execution_pool:Started task 48_M0:2020-11-24 17:06:12,519
+worker2.py:execution_pool:Started task 48_M1:2020-11-24 17:06:12,614
+worker2.py:task_monitor:Completed task 48_M1:2020-11-24 17:06:14,253
+master.py:schedule_job:Started job with job id 49:2020-11-24 17:06:14,302
+worker1.py:execution_pool:Started task 49_M0:2020-11-24 17:06:14,365
+worker1.py:execution_pool:Started task 49_M1:2020-11-24 17:06:14,437
+worker2.py:execution_pool:Started task 49_M2:2020-11-24 17:06:14,559
+worker3.py:task_monitor:Completed task 47_R0:2020-11-24 17:06:15,249
+worker3.py:task_monitor:Completed task 47_R1:2020-11-24 17:06:15,250
+worker3.py:task_monitor:Completed task 48_M0:2020-11-24 17:06:15,251
+master.py:schedule_all_tasks:Completed job 47:2020-11-24 17:06:15,380
+worker1.py:execution_pool:Started task 48_R0:2020-11-24 17:06:15,502
+worker1.py:task_monitor:Completed task 49_M1:2020-11-24 17:06:16,250
+worker2.py:task_monitor:Completed task 46_R0:2020-11-24 17:06:16,260
+worker2.py:task_monitor:Completed task 46_R1:2020-11-24 17:06:16,261
+master.py:schedule_all_tasks:Completed job 46:2020-11-24 17:06:16,434
+worker1.py:task_monitor:Completed task 49_M0:2020-11-24 17:06:17,254
+worker1.py:task_monitor:Completed task 48_R0:2020-11-24 17:06:17,254
+master.py:schedule_all_tasks:Completed job 48:2020-11-24 17:06:17,337
+worker2.py:task_monitor:Completed task 49_M2:2020-11-24 17:06:18,269
+worker1.py:execution_pool:Started task 49_R0:2020-11-24 17:06:18,293
+worker1.py:task_monitor:Completed task 49_R0:2020-11-24 17:06:19,257
+master.py:schedule_all_tasks:Completed job 49:2020-11-24 17:06:19,273

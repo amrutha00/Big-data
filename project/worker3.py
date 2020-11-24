@@ -75,6 +75,7 @@ class Worker:
             If any of the tasks has been completed, it updates the master about it.
             tempSet is used to get the set of keys in the execution pool at that instant.
         """
+        tempKeys = list(self.pool.keys())
         tempList = []
         for task_id in self.pool.keys():
             self.pool[task_id]-=1    #reduce time by 1 unit every clock cycle --sleep the thread for 1s

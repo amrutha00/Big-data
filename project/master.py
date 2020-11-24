@@ -214,7 +214,9 @@ class Master:
             This function waits until a slot is available, after which
             it dequeus from the wait queue and schedules all tasks of that job
         """
-        self.sem.acquire(blocking=True)
+        self.sem.release()
+        # self.sem.acquire(blocking=True)
+        # self.sem.release()
         job = self.wait_queue.get()
         logging.debug('Started job with job id {}'.format(job['job_id']))
         self.schedule_all_tasks(job)
@@ -226,6 +228,7 @@ class Master:
         """
         while True:
             if (self.wait_queue.qsize() != 0):
+                self.sem.acquire(blocking=True)
                 threading.Thread(target=Master.schedule_job,args=[self]).start()
 
 def main():
