@@ -1,15 +1,12 @@
 #!/usr/bin/python
 
 import threading
-import time
+from time import sleep
 import socket
 import datetime
 import sys
 import json
 import logging
-
-# mutex = theading.Lock()
-
 
 class Worker:
     def __init__(self,port,worker_id):
@@ -28,54 +25,44 @@ class Worker:
         self.server_port=5001
     
    
-    def listen_master(self): #the worker acts like the server
+    def listen_master(self):
         """
             This function listens for tasks to do.
+            The worker acts like the server during the communication
 
         """
-        #rec_port=self.port
         recv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        recv_socket.bind(('',self.port))#listens on the specified port
-        recv_socket.listen(1)
-	
+        recv_socket.bind(('',self.port)) # listens on the specified port
+        recv_socket.listen(5) 
         while True:
             conn_socket, addr = recv_socket.accept()
             task = conn_socket.recv(2048).decode() #recv the msg for task launch by master
             self.execution_pool(task) #add task to the execution pool
-            #self.logs('LAUNCHING',task,time.time()) #check if wall clock or user time???
-            # recv_socket.send("task received".encode()) #Is this necessary?
             conn_socket.close()
         
         
-    def update_master(self,task=None): #msg is the task_id
-        #server_port=self.server_port
-        
-        # recv_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        # # recv_socket.bind(('localhost',self.port))
-        # recv_socket.connect(('localhost',self.server_port))#connects to the server
-
-        # if task:
-        #     #exec_time=get the task_completion time from log file
-        #     message=[self.worker_id,task]
-        #     message=json.dumps(message)
-        #     recv_socket.send(message.encode()) #send the task_id of the task that is completed
-        #     recv_socket.close()
-
+    def update_master(self,task=None):
+        """
+            This is called when a task is completed.
+            In this case, the worker file acts as a client and sends the message to the master 
+            indicating the completion of the given task
+            message = [worker_id, task_id]
+        """
         if (task):
             message1 = list((self.worker_id, task))
-            message = json.dumps(message1)
+            message = json.dumps(message1) # Converting the list to string 
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect(('localhost', self.server_port))
                 s.send(message.encode())
-                logging.debug('Sent {} to master'.format(message1))
-
-        
 
     
-    def execution_pool(self,task): #adds it to execution pool,with task_id and remaining time
-        # task=task.decode() #We've already done this in listen_master
+    def execution_pool(self,task): 
+        """
+            This function adds the given task to the execution pool.
+            key = task_id
+            value = remaining time of the task (initialised to its duration)
+        """
         task=json.loads(task)
-        # (task_id,remain_time)=list(task.items())[0] #I didnt understand this, so i added the following two lines
         task_id = task['task_id']
         remain_time = task['duration']
         self.pool[task_id]=remain_time
@@ -84,48 +71,29 @@ class Worker:
 
     def task_monitor(self):
         """
-            With a time interval of one second, this function 
-            updates the remaining times of the tasks in the execution pool.
-            If any of the tasks has been completed, it updates the master about it
+            This function updates the remaining times of the tasks in the execution pool.
+            If any of the tasks has been completed, it updates the master about it.
+            tempSet is used to get the set of keys in the execution pool at that instant.
+        """
+        tempList = []
+        for task_id in self.pool.keys():
+            self.pool[task_id]-=1    #reduce time by 1 unit every clock cycle --sleep the thread for 1s
+
+            if self.pool[task_id]==0: #the task execution is completed
+                logging.debug('Completed task {}'.format(task_id))
+                self.update_master(task_id) #t2 must update the master about the status of the task completion
+                tempList.append(task_id)
+        for i in tempList:
+            self.pool.pop(i)
+
+
+    def clock(self):
+        """
+            Simulates a clock
         """
         while True:
-            tempSet = self.pool.keys()
-            tempList = []
-            for task_id in tempSet:
-                self.pool[task_id]-=1    #reduce time by 1 unit every clock cycle --sleep the thread for 1s
-
-                if self.pool[task_id]==0: #the task execution is completed
-                    #self.logs('COMPLETED',task_id,time.time())
-                    logging.debug('Completed task {}'.format(task_id))
-                    self.update_master(task_id) #t2 must update the master about the status of the task completion
-                    # self.pool.pop(task_id) #remove the task from the execution pool
-                    tempList.append(task_id)
-            for i in tempList:
-                self.pool.pop(i)
-
-            time.sleep(1) #every one second decrement the time of all the tasks
-
-    '''
-    def getdate(self):
-        d=datetime.date.today()
-        curr_date = today.strftime("%d:%m:%Y")
-        return curr_date
-
-    def logs(self,msg,t,ptime):
-        #check if wall clock or user time???
-        f = open("logs.txt", "a+") 
-        if msg=='LAUNCHING':
-            date=self.getdate()
-            f.write(task_id," ",msg," ",date," "ptime)
-            
-        else:
-            date=self.getdate()
-            f.write(task_id," ",msg," ",date," "ptime)
-        
-        f.close()
-    '''      
-
-
+            self.task_monitor()
+            sleep(1)
 
 if __name__ == "__main__": 
 
@@ -137,7 +105,8 @@ if __name__ == "__main__":
     worker=Worker(port,worker_id)
 
     t1 = threading.Thread(target=worker.listen_master) 
-    t2 = threading.Thread(target=worker.task_monitor) 
+    t2 = threading.Thread(target=worker.clock) 
+
   
     t1.start() 
     t2.start() 

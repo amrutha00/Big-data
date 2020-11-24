@@ -1,11 +1,11 @@
 import threading
-import time
 import socket
 import json
 import random
 import sys
 from queue import Queue
 import logging
+import copy
 
 mutex = threading.Lock() #for slots
 task_mutex = threading.Lock() #for tasks_completed 
@@ -53,19 +53,6 @@ class Master:
         self.workers = dict()  # changed to dictionary
         self.algo = algo
         self.tasks_completed = set()
-        
-        
-    
-    """
-    we are not using this at all!
-    Let's delete this
-    def parse_job(self, job):
-            Argument(s): the job text
-            This function reads the json text, converts it into a python dictionary \
-            and appends this dictinary to the job_pool
-        content = json.loads(job)
-        self.job_pool.append(content)
-    """
 
     def read_config(self, config):
         """
@@ -78,18 +65,21 @@ class Master:
         for worker in content['workers']:
             obj = Worker_details(worker['worker_id'], worker['slots'], '127.0.0.1', worker['port'])
             summ += int(worker['slots'])
-            # self.workers.append(obj)
             self.workers[worker['worker_id']] = obj
-        self.config_workers = self.workers.copy()  # self.config_workers will store the original configuration details
-        self.sem = threading.BoundedSemaphore(summ) # Initialising the counter with the number of slots
+
+        # self.config_workers will store the original configuration details
+        self.config_workers = copy.deepcopy(self.workers)  
+
+        # Initialising the counter with the number of slots
+        self.sem = threading.BoundedSemaphore(summ)
 
     def get_available_workers(self):
         """
-            returns a list of worker ids which have at least one slot available
+            Returns a list of worker ids which have at least one slot available
         """
         available_workers = []
         mutex.acquire()
-        temp = self.workers
+        temp = copy.deepcopy(self.workers)
         mutex.release()
         for i in temp:
             if temp[i].no_of_slots > 0:
@@ -114,7 +104,10 @@ class Master:
         """
             Schedules the given task to one of the workers
         """
+        # Waiting until there's at least one slot available
         self.sem.acquire(blocking=True)
+
+        # Getting the worker id with available slots based on the scheduling algorithm
         worker_id = self.find_worker()
         port_number = self.workers[worker_id].port
         task = json.dumps(task)
@@ -126,29 +119,29 @@ class Master:
 
 
     def listen_for_worker_updates(self):
+        """
+            Listens for updates from the workers
+            Adds the task received to the tasks_completed set
+            Increments the sempahore to indicate that a slot is available
+        """
         rec_port = 5001
         rec_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         rec_socket.bind(('', rec_port))
-        rec_socket.listen(3)
+        rec_socket.listen(10)
         while True:
             connectionSocket, addr = rec_socket.accept()
             message = connectionSocket.recv(2048).decode()
             message = json.loads(message)
-            logging.debug('Received {}'.format(message))
             task_mutex.acquire()
             self.tasks_completed.add(message[1])  # message[1] has task_id
-            logging.debug('Added {} to tasks completed'.format(message[1]))
             task_mutex.release()
-            # self.workers[message[0]]['slots'] += 1 #message[0] has worker_id,increment the slot
             self.workers[message[0]].increment_slot()
-            logging.debug('incremented slot for {}'.format(message[0]))
             self.sem.release()
             connectionSocket.close()
 
     def dependency_wait_mapper(self, job):
         """
             This function waits till all map tasks of the job have been finished
-            I think this function only listens for updates from the workers
         """
         mappers = set()
         for task in job["map_tasks"]:
@@ -164,6 +157,9 @@ class Master:
                     n -= 1
 
     def dependency_wait_reducer(self, job):
+        """
+            This function waits till all reduce tasks of the job have been finished
+        """
         reducers = set()
         for task in job["reduce_tasks"]:
             reducers.add(task['task_id'])
@@ -183,11 +179,19 @@ class Master:
         """
         for task in job["map_tasks"]:
             self.schedule_task(task)
+
+        # Wait for all map tasks to complete
         self.dependency_wait_mapper(job)
+
         for task in job["reduce_tasks"]:
             self.schedule_task(task)
+
+        # Wait for all reduce tasks to complete
         self.dependency_wait_reducer(job)
+
+        # The job has been completed
         logging.debug('Completed job {}'.format(job['job_id']))
+        # print("Number of threads is {} after completing {}".format(threading.active_count(), job['job_id']))
 
     def listen_for_job_requests(self):
         """
@@ -199,42 +203,50 @@ class Master:
         rec_socket.bind(('', rec_port))
         rec_socket.listen(1)
         while True:
-            connectionSocket, addr = rec_socket.accept()  # what is serverSocket?
+            connectionSocket, addr = rec_socket.accept()  
             message = connectionSocket.recv(2048).decode()
             message = json.loads(message)
-            self.wait_queue.put(message)  # added self
+            self.wait_queue.put(message)  
             connectionSocket.close()
+
+    def schedule_job(self):
+        """
+            This function waits until a slot is available, after which
+            it dequeus from the wait queue and schedules all tasks of that job
+        """
+        self.sem.acquire(blocking=True)
+        job = self.wait_queue.get()
+        logging.debug('Started job with job id {}'.format(job['job_id']))
+        self.schedule_all_tasks(job)
 
     def schedule_jobs(self):
         """
-            Dequeues jobs from the wait queue and calls schedule_all_tasks for each job
-            Doubt: Idk how often this should dequeue from the wait queue
-            Should there be a function to check for unused slots? We need to discuss this
+            Whenever there's a job waiting in the wait_queue, 
+            this function creates a new thread for each job and runs it
         """
         while True:
-            self.sem.acquire(blocking=True)
-            job = self.wait_queue.get()
-            logging.debug('Started job with job id {}'.format(job['job_id']))
-            self.schedule_all_tasks(job)
-            time.sleep(1)
-
+            if (self.wait_queue.qsize() != 0):
+                threading.Thread(target=Master.schedule_job,args=[self]).start()
 
 def main():
+
+    # Logging configuration
     logging.basicConfig(filename="yacs.log", level=logging.DEBUG,
     format='%(filename)s:%(funcName)s:%(message)s:%(asctime)s')
+
     config_file = open(sys.argv[1], "r")
     algo = sys.argv[2]
     masterProcess = Master(algo)
     masterProcess.read_config(config_file.read())
     config_file.close()
+
+
     t1 = threading.Thread(target=Master.listen_for_job_requests, args=[masterProcess])
     t2 = threading.Thread(target=Master.listen_for_worker_updates, args=[masterProcess])
     t3 = threading.Thread(target=Master.schedule_jobs, args=[masterProcess])
-    # masterProcess.schedule_jobs()
-    # print("Hello")
-    t3.start()
     t1.start()
     t2.start()
+    t3.start()
     
     t1.join()
     t2.join()
