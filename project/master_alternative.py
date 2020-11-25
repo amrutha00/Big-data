@@ -76,6 +76,11 @@ class Master:
 
         self.running_reduce_jobs = set()
 
+        # For round robin
+        self.worker_ids = list()
+        self.last_used_worker = None
+        self.no_of_workers = 0
+
     def read_config(self, config):
         """
             Argument(s): config text
@@ -88,6 +93,8 @@ class Master:
             obj = Worker_details(worker['worker_id'], worker['slots'], '127.0.0.1', worker['port'])
             summ += int(worker['slots'])
             self.workers[worker['worker_id']] = obj
+            self.worker_ids.append(worker['worker_id'])
+            self.no_of_workers += 1
 
         # self.config_workers will store the original configuration details
         self.config_workers = copy.deepcopy(self.workers)  
@@ -113,14 +120,34 @@ class Master:
         """
             Finds a worker based on the algorithm provided as an argument
         """
+        available_workers = self.get_available_workers()
         if self.algo == 'random':
-            available_workers = self.get_available_workers()
             choice = random.choice(available_workers)
+            self.last_used_worker = choice
             return choice
         elif self.algo == 'round-robin':
-            raise NotImplementedError
+            if self.last_used_worker == None:
+                self.last_used_worker = available_workers[0]
+                return available_workers[0]
+
+            i = 0
+            while (self.worker_ids[i] != self.last_used_worker):
+                i = (i + 1)%(self.no_of_workers)
+            i = (i + 1)%(len(self.worker_ids))
+            while (self.worker_ids[i] not in available_workers):
+                i = (i + 1)%(self.no_of_workers)
+            self.last_used_worker = self.worker_ids[i]
+            return self.worker_ids[i]
+
         else:
-            raise NotImplementedError
+            minn = available_workers[0]
+            for worker in available_workers:
+                if (self.workers[worker].no_of_slots < self.workers[minn].no_of_slots):
+                    minn = worker
+            self.last_used_worker = minn
+            return minn
+
+
 
     def schedule_task(self, task):
         """
