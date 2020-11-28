@@ -140,12 +140,12 @@ class Master:
             return self.worker_ids[i]
 
         else:
-            minn = available_workers[0]
+            max1 = available_workers[0]
             for worker in available_workers:
-                if (self.workers[worker].no_of_slots < self.workers[minn].no_of_slots):
-                    minn = worker
-            self.last_used_worker = minn
-            return minn
+                if (self.workers[worker].no_of_slots > self.workers[max1].no_of_slots):
+                    max1 = worker
+            self.last_used_worker = max1
+            return max1
 
 
 
