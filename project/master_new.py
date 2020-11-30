@@ -9,7 +9,6 @@ import copy
 
 mutex = threading.Lock() #for slots
 task_mutex = threading.Lock() #for tasks_completed 
-dep_mutex = threading.Lock() # for deleting / adding to dependency pool
 exec_mutex = threading.Lock() # for deleting / adding to execution pool
 
 class Worker_details:
@@ -93,7 +92,6 @@ class Master:
             self.sem will tell us the number of slots available.
             
         """
-        self.job_pool = []
         self.wait_queue = Queue()
         self.workers = dict()  # changed to dictionary
         self.algo = algo
@@ -105,14 +103,6 @@ class Master:
         # Key: job_id
         # Value: The job object
         self.execution_pool = dict()
-
-        # This will help us keep track of dependencies and job completion of the jobs running
-        # Each element will have the following format:
-        # [ { map_task_1_id, map_task_2_id, ... } , { reduce_task_1_id, reduce_task_2_id, ... }, job_id ]
-        self.dependency_pool = list()
-
-        # This set contains the set of all jobs whose reduce jobs have been scheduled
-        self.running_reduce_jobs = set()
 
         # For round robin
         self.worker_ids = list()
@@ -254,6 +244,7 @@ class Master:
             for task in tasks_completed_copy:
                 for j_id in pool_keys:
                         self.execution_pool[j_id].decrement_task_count(task)
+                task_mutex.acquire();self.tasks_completed.remove(task);task_mutex.release()
                 
 
             for j_id in pool_keys:
