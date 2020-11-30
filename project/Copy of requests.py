@@ -6,6 +6,7 @@ import random
 import numpy as np
 
 def create_job_request(job_id):
+	#random.seed(10)
 	number_of_map_tasks=random.randrange(1,5)
 	number_of_reduce_tasks=random.randrange(1,3)
 	job_request={"job_id":job_id,"map_tasks":[],"reduce_tasks":[]}
