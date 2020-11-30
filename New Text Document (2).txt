@@ -1,0 +1,150 @@
+--commands
+	--python3 master.py config.py algo 
+	--python3 workerid.py port worker_id
+
+--semaphores and locks
+	--In master
+		--semaphores
+			--sem is the total number of slots across all the workers
+		--locks
+			--mutex is for changing no_of_slots in Worker_details class
+			--task_mutex is for modifying tasks_completed set in listen_for_worker_updates()
+			--dep_mutex is for deleting from dependency pool in update_dependencies() or adding to the dependency pool in schedule_job()
+			--exec_mutex is for deleting from or adding to the execution pool
+	--In worker
+		--locks
+			--someLock for getting true wall clock time
+		
+
+--config file
+	--to inform the master about the worker ids, slots and port numbers
+
+
+--requests file
+	--generates random requests
+	--format is {"job_id":job_id, 
+		     "map_tasks":[{"task_id":task_id, "duration":duration_in_seconds}, {...}], 
+		     "reduce_tasks"_[{...}, {...}]}
+
+
+--Worker_details class
+	--attributes
+		--worker_id
+		--no_of_slots
+		--ip_addr
+		--port
+	--functions
+		--increment slot
+		--decrement slot
+
+
+--Master class
+	--attributes
+		--job_pool: list	#what is the use of this?
+		--wait_queue: Queue
+		--workers: dict with key as worker id and value as Worker_details object	#will this be sorted by worker id, irrespective of how the config json file is
+		--algo: string
+		--tasks_completed: set
+		--execution_pool: dict with key as job id and value as job dictionary	#what does this have and why is it used apart from finding the reduce tasks to schedule?
+		--dependency_pool: list of tuples of map tasks, set of reduce tasks and job id
+		--running_reduce_jobs: set of job ids whose reduce jobs have been scheduled and are running	
+
+		--worker_ids: list
+		--last_used_worker: string
+		--no_of_workers: int
+
+	--functions
+		--init
+			--gets parameter as algo
+			--initialises attributes	
+
+
+--Master process
+	--Given: 1 master
+	--receive job requests
+		--on port 5000
+		--number given as command line argument in terminal
+		--each job is a map reduce job
+		--map tasks can run in parallel
+		--reduce tasks can run in parallel
+		--reduce tasks run after map tasks
+		--add job to wait_queue
+
+	--receive updates
+		--on port 5001
+		--update message of format (worker_id, task_id)?timestamp
+		--increment number of slots in worker_details object of this worker
+		--increment sem
+		--Log Completed task task_id at timestamp
+
+	--scheduling tasks 
+		--when job is waiting in wait_queue and there is at least one available slot in some machine
+		--get job to be scheduled
+		--Log Started job with job id job_id;algo
+		--get set of map tasks and set of reduce tasks for the job
+		--update dependency_pool 
+		--update execution_pool
+		--schedule map tasks
+			--find worker to schedule task on
+				--get the available workers by iterating through the workers dictionary		
+				--algorithm
+					--random: chooses a random worker among the ones with available slots
+					--round-robin: starts looking from the workers after the latest used worker to find one with an available slot and as soon as it finds one, it updates last_used_worker and returns that
+					--least-loaded: worst-fit
+			--communicate with worker to send the task
+			--reduce number of slots of worker on which task is scheduled
+		--For this, needs to keep track of the number of available slots in each machine
+	
+	--update dependencies
+		--remove the completed map and reduce tasks from the job dependency and tasks_completed set
+		--if no more map tasks
+			--if no more reduce tasks for a job in dependency_pool, remove it from there and from execution pool
+				--Log Completed job job_id
+				--remove job id from from running_reduce jobs
+			--if no reduce tasks (obtained from execution_pool) have been scheduled yet, schedule them just like map tasks were scheduled, but also add it to running_reduce_jobs set
+
+	--logging
+		--level=logging.DEBUG to ensure that DEBUG logs get recorded, because they don't by default as they are not critical
+		--format is the format of the log message
+		--default mode of logging is append. To change it to write mode, give filemode='w'
+		--Log Started job with job id job_id;algo	#why are we not logging received job requests?
+		--Log Completed task task_id at timestamp
+		--Log Completed job job_id
+
+
+--read_config(config)
+	--create worker_details objects 
+	--initialise sem semaphore
+
+
+--Worker class
+	--funtions
+		--init
+			--port: integer
+			--worker_id: string
+			--pool: dict with key as task_id and value as remaining time
+			--server_port=5001
+			--wait_list: list	#why list and not Queue?
+
+
+--Worker processes
+	--Given: 3 worker processes
+	--wait for task launch message from master
+		--add the task to execution pool by adding a tuple of the task and its duration+1 to wait_list
+		--decrement number of available slots on recieving launch message
+		
+	--simulation of tasks with clock()	#why do we have sleep(1)?
+		--task_monitor() 
+			--get the last element of wait_list and to pool
+			--Log Started task task_id
+			--by decrementing remaining time for each task by one until the task's remaining duration reaches zero
+			--if remaining time reaches zero
+				--Log Completed task task_id
+				--remove from pool dictionary
+				--update master with the message format written in Master process
+
+	#in our implementation of worker.py, it is only for countdown and clock and has no idea about its own number of slots or anything?
+
+	--logs
+		--Log Started task task_id
+		--Log Completed task task_id
