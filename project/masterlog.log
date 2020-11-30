@@ -1,0 +1,15 @@
+master.py;schedule_job;Started job with job id 0;least;2020-11-30 12:27:47,845
+master.py;listen_for_worker_updates;Completed task 0_M0 at 2020-11-30 12:27:52.090249;2020-11-30 12:27:52,103
+master.py;schedule_job;Started job with job id 1;least;2020-11-30 12:27:52,103
+master.py;schedule_job;Started job with job id 2;least;2020-11-30 12:27:53,194
+master.py;listen_for_worker_updates;Completed task 1_M1 at 2020-11-30 12:27:54.093785;2020-11-30 12:27:54,099
+master.py;listen_for_worker_updates;Completed task 1_M0 at 2020-11-30 12:27:55.104962;2020-11-30 12:27:55,149
+master.py;listen_for_worker_updates;Completed task 2_M0 at 2020-11-30 12:27:55.105729;2020-11-30 12:27:55,160
+master.py;listen_for_worker_updates;Completed task 2_M1 at 2020-11-30 12:27:56.101649;2020-11-30 12:27:56,119
+master.py;update_dependencies;Completed job 0;2020-11-30 12:27:57,134
+master.py;listen_for_worker_updates;Completed task 0_R0 at 2020-11-30 12:27:57.115271;2020-11-30 12:27:57,134
+master.py;listen_for_worker_updates;Completed task 1_R0 at 2020-11-30 12:27:59.116151;2020-11-30 12:27:59,131
+master.py;update_dependencies;Completed job 1;2020-11-30 12:27:59,148
+master.py;listen_for_worker_updates;Completed task 1_R1 at 2020-11-30 12:27:59.121182;2020-11-30 12:27:59,148
+master.py;listen_for_worker_updates;Completed task 2_R0 at 2020-11-30 12:28:01.129540;2020-11-30 12:28:01,147
+master.py;update_dependencies;Completed job 2;2020-11-30 12:28:01,147

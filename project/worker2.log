@@ -1,0 +1,4 @@
+worker2.py;task_monitor;Started task 1_M1;2020-11-30 12:27:53,089
+worker2.py;task_monitor;Completed task 1_M1;2020-11-30 12:27:54,093
+worker2.py;task_monitor;Started task 1_R0;2020-11-30 12:27:56,103
+worker2.py;task_monitor;Completed task 1_R0;2020-11-30 12:27:59,115
