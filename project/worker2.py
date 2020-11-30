@@ -3,10 +3,12 @@
 import threading
 from time import sleep
 import socket
-import datetime
+from datetime import datetime
 import sys
 import json
 import logging
+
+someLock = threading.Lock()
 
 class Worker:
     def __init__(self,port,worker_id):
@@ -23,6 +25,7 @@ class Worker:
         self.worker_id=worker_id
         self.pool=dict()
         self.server_port=5001
+        self.wait_list = []
     
    
     def listen_master(self):
@@ -51,6 +54,7 @@ class Worker:
         if (task):
             message1 = list((self.worker_id, task))
             message = json.dumps(message1) # Converting the list to string 
+            message = message + "?" + str(datetime.now())
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect(('localhost', self.server_port))
                 s.send(message.encode())
@@ -64,9 +68,10 @@ class Worker:
         """
         task=json.loads(task)
         task_id = task['task_id']
-        remain_time = task['duration']
-        self.pool[task_id]=remain_time
-        logging.debug('Started task {}'.format(task_id))
+        remain_time = task['duration'] + 1
+        # self.pool[task_id]=remain_time
+        self.wait_list.append(tuple((task_id, remain_time)))
+        
 
 
     def task_monitor(self):
@@ -75,9 +80,16 @@ class Worker:
             If any of the tasks has been completed, it updates the master about it.
             tempSet is used to get the set of keys in the execution pool at that instant.
         """
+        someLock.acquire()
+
+        while (self.wait_list):
+            ta = self.wait_list.pop()
+            self.pool[ta[0]] = ta[1]
+            logging.debug("Started task {}".format(ta[0]))
+
         tempKeys = list(self.pool.keys())
         tempList = []
-        for task_id in self.pool.keys():
+        for task_id in tempKeys:
             self.pool[task_id]-=1    #reduce time by 1 unit every clock cycle --sleep the thread for 1s
 
             if self.pool[task_id]==0: #the task execution is completed
@@ -86,6 +98,7 @@ class Worker:
                 tempList.append(task_id)
         for i in tempList:
             self.pool.pop(i)
+        someLock.release()
 
 
     def clock(self):
@@ -93,20 +106,21 @@ class Worker:
             Simulates a clock
         """
         while True:
+            # threading.Thread(target=self.task_monitor()).start()
             self.task_monitor()
             sleep(1)
 
 if __name__ == "__main__": 
 
-    logging.basicConfig(filename="yacs.log", level=logging.DEBUG,
-    format='%(filename)s:%(funcName)s:%(message)s:%(asctime)s')
+    logging.basicConfig(filename="worker2.log", level=logging.DEBUG,
+    format='%(filename)s;%(funcName)s;%(message)s;%(asctime)s')
 
     port=int(sys.argv[1])
     worker_id=int(sys.argv[2])
     worker=Worker(port,worker_id)
 
     t1 = threading.Thread(target=worker.listen_master) 
-    t2 = threading.Thread(target=worker.clock) 
+    t2 = threading.Thread(target=worker.clock)
 
   
     t1.start() 
