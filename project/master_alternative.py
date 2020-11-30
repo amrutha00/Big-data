@@ -50,7 +50,7 @@ class Master:
             self.sem will tell us the number of slots available.
             
         """
-        self.job_pool = []
+        # self.job_pool = []
         self.wait_queue = Queue()
         self.workers = dict()  # changed to dictionary
         self.algo = algo
