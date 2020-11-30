@@ -12,12 +12,6 @@ task_mutex = threading.Lock() #for tasks_completed
 dep_mutex = threading.Lock() # for deleting / adding to dependency pool
 exec_mutex = threading.Lock() # for deleting / adding to execution pool
 
-"""
-    These comments are NOT FINAL
-    These are meant for us to understand the code when we get confused 
-    We shall modify the comments later
-"""
-
 class Worker_details:
     """
         Class to store worker details
@@ -74,6 +68,7 @@ class Master:
         # [ { map_task_1_id, map_task_2_id, ... } , { reduce_task_1_id, reduce_task_2_id, ... }, job_id ]
         self.dependency_pool = list()
 
+        # This set contains the set of all jobs whose reduce jobs have been scheduled
         self.running_reduce_jobs = set()
 
         # For round robin
@@ -96,10 +91,7 @@ class Master:
             self.worker_ids.append(worker['worker_id'])
             self.no_of_workers += 1
 
-        # for worker in self.worker_ids:
-        #     print("Worker id: ", worker, " slots: ", self.workers[worker].no_of_slots, " port: ", self.workers[worker].port)
-
-        # self.config_workers will store the original configuration details
+        # self.config_workers will store the original configuration details. 
         self.config_workers = copy.deepcopy(self.workers)  
 
         # Initialising the counter with the number of slots
@@ -111,7 +103,7 @@ class Master:
         """
         available_workers = []
         mutex.acquire()
-        temp = copy.deepcopy(self.workers)
+        temp = copy.deepcopy(self.workers) # Why deep copy? Because we need the slots' details at that instant. 
         mutex.release()
         for i in temp:
             if temp[i].no_of_slots > 0:
@@ -129,24 +121,31 @@ class Master:
             self.last_used_worker = choice
             return choice
         elif self.algo == 'round-robin':
-            if self.last_used_worker == None:
+            if self.last_used_worker == None: # This is the first time this function has been called
                 self.last_used_worker = available_workers[0]
                 return available_workers[0]
-
+            
+            # So this part is to find the index of the last used worker in the list 'self.worker_ids'
+            # While loop terminates when we've found the last_used_worker's index in the list
             i = 0
             while (self.worker_ids[i] != self.last_used_worker):
                 i = (i + 1)%(self.no_of_workers)
+            # i will now equal the index of the worker to the right of last_used_worker (is last_used_worker is the rightmost worker, then i = first worker)
             i = (i + 1)%(len(self.worker_ids))
+            
+            # Here, the first worker we find that has slots available will be the worker returned
+            # available_workers has the list of workers with available slots.
+            # Alternative implementation: while (self.workers[self.worker_ids[i]].no_of_slots == 0) i++
             while (self.worker_ids[i] not in available_workers):
                 i = (i + 1)%(self.no_of_workers)
             self.last_used_worker = self.worker_ids[i]
             return self.worker_ids[i]
 
         else:
-
+            # Worst fit algorithm
+            # among the workers with available slots, we choose the worker with the most number of slots available
             max1 = available_workers[0]
             for worker in available_workers:
-                # print("Worker id: ", worker, " number of slots: ", self.workers[worker].no_of_slots)
                 if (self.workers[worker].no_of_slots > self.workers[max1].no_of_slots):
                     max1 = worker
             self.last_used_worker = max1
@@ -191,16 +190,16 @@ class Master:
         rec_port = 5001
         rec_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         rec_socket.bind(('', rec_port))
-        rec_socket.listen(10)
+        rec_socket.listen(10) # Why 10? It could be anything really. 10 is a safe size of queue, but we could use something lesser.
         while True:
             connectionSocket, addr = rec_socket.accept()
             message = connectionSocket.recv(2048).decode()
-            message1 = message.split("?")
+            message1 = message.split("?") #Incoming message will look like this: (worker_id, task_id)?timestamp
             message = json.loads(message1[0])
-            self.workers[message[0]].increment_slot()
+            self.workers[message[0]].increment_slot() # Updating the no_of_slots 
             self.sem.release()
             connectionSocket.close()
-            logging.debug('Completed task {} at {}'.format(message[1], message1[1]))
+            logging.debug('Completed task {} at {}'.format(message[1], message1[1])) # Logging the task_id of task completed and the timestamp of its completion
             task_mutex.acquire()
             self.tasks_completed.add(message[1])  # message[1] has task_id
             task_mutex.release()
@@ -244,7 +243,7 @@ class Master:
                     # Also remove the task from the tasks_completed set
                     if (task in job_dep[0]):
                         dep_mutex.acquire()
-                        job_dep[0].remove(task)
+                        job_dep[0].remove(task) # Removing this task from the job's mapper dependency
                         dep_mutex.release()
 
                         task_mutex.acquire()
@@ -281,7 +280,7 @@ class Master:
                         logging.debug("Completed job {}".format(job_dep[2]))
                         self.running_reduce_jobs.remove(job_dep[2])
                     elif job_dep[2] not in self.running_reduce_jobs:
-                        # All map tasks have been completed
+                        # All map tasks have been completed, and the job's reduce tasks have not already been scheduled
                         self.schedule_reduce_tasks(job_dep[2])
 
 
@@ -304,6 +303,9 @@ class Master:
             connectionSocket.close()
 
     def schedule_map_tasks(self, job):
+        """
+            Basically schedules all map tasks of the job
+        """
         for task in job['map_tasks']:
             self.schedule_task(task)
 
@@ -312,23 +314,26 @@ class Master:
             This function waits until a slot is available, after which
             it dequeus from the wait queue and adds the job to the execution pool
         """
-        self.sem.release()
+        self.sem.release() # Because we used semaphore.acquire(), it would've decremented the sempahore.
+                           # We have to increment it because we haven't used a slot yet.
+                           # We used a semaphore to keep track of the slots available
+                           # Whenever a task is scheduled, the semaphore is decremented automatically (line 160)
         job = self.wait_queue.get()
         logging.debug('Started job with job id {};{}'.format(job['job_id'], self.algo))
-        mapTasks = set()
+        mapTasks = set() # Set of all map tasks. Will contain only the task ids
         for task in job['map_tasks']:
             mapTasks.add(task['task_id'])
-        redTasks = set()
+        redTasks = set() # Set of all reduce tasks. Will contain only the task ids
         for task in job['reduce_tasks']:
             redTasks.add(task['task_id'])
 
         dep_mutex.acquire()
-        self.dependency_pool.append(list((mapTasks, redTasks, job['job_id'])))
+        self.dependency_pool.append(list((mapTasks, redTasks, job['job_id']))) # According to the format mentioned on line 68
         dep_mutex.release()
         exec_mutex.acquire()
-        self.execution_pool[job['job_id']] = job
+        self.execution_pool[job['job_id']] = job #deb_mutex for dependency pool, exec_mutex for execution pool
         exec_mutex.release()
-        self.schedule_map_tasks(job)
+        self.schedule_map_tasks(job) # Schedule all map tasks of this job
 
 
     def schedule_jobs(self):
@@ -337,8 +342,8 @@ class Master:
             this function creates a new thread for each job and runs it
         """
         while True:
-            if (self.wait_queue.qsize() != 0):
-                self.sem.acquire(blocking=True)
+            if (self.wait_queue.qsize() != 0): # Wait till there's at least one job in the queue
+                self.sem.acquire(blocking=True) # Wait till there's at least one slot available
                 # threading.Thread(target=Master.schedule_job,args=[self]).start()
                 self.schedule_job()
 
@@ -347,6 +352,7 @@ def main():
     # Logging configuration
     logging.basicConfig(filename="masterlog.log", level=logging.DEBUG,
     format='%(filename)s;%(funcName)s;%(message)s;%(asctime)s')
+    
     config_file = open(sys.argv[1], "r")
     algo = sys.argv[2]
     masterProcess = Master(algo)
