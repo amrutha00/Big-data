@@ -197,13 +197,13 @@ class Master:
             message = connectionSocket.recv(2048).decode()
             message1 = message.split("?")
             message = json.loads(message1[0])
-            task_mutex.acquire()
-            self.tasks_completed.add(message[1])  # message[1] has task_id
-            task_mutex.release()
             self.workers[message[0]].increment_slot()
             self.sem.release()
             connectionSocket.close()
             logging.debug('Completed task {} at {}'.format(message[1], message1[1]))
+            task_mutex.acquire()
+            self.tasks_completed.add(message[1])  # message[1] has task_id
+            task_mutex.release()
 
     def update_dependencies(self):
         """
