@@ -96,6 +96,9 @@ class Master:
             self.worker_ids.append(worker['worker_id'])
             self.no_of_workers += 1
 
+        # for worker in self.worker_ids:
+        #     print("Worker id: ", worker, " slots: ", self.workers[worker].no_of_slots, " port: ", self.workers[worker].port)
+
         # self.config_workers will store the original configuration details
         self.config_workers = copy.deepcopy(self.workers)  
 
@@ -140,13 +143,14 @@ class Master:
             return self.worker_ids[i]
 
         else:
+
             max1 = available_workers[0]
             for worker in available_workers:
+                # print("Worker id: ", worker, " number of slots: ", self.workers[worker].no_of_slots)
                 if (self.workers[worker].no_of_slots > self.workers[max1].no_of_slots):
                     max1 = worker
             self.last_used_worker = max1
             return max1
-
 
 
     def schedule_task(self, task):
@@ -191,13 +195,15 @@ class Master:
         while True:
             connectionSocket, addr = rec_socket.accept()
             message = connectionSocket.recv(2048).decode()
-            message = json.loads(message)
+            message1 = message.split("?")
+            message = json.loads(message1[0])
             task_mutex.acquire()
             self.tasks_completed.add(message[1])  # message[1] has task_id
             task_mutex.release()
             self.workers[message[0]].increment_slot()
             self.sem.release()
             connectionSocket.close()
+            logging.debug('Completed task {} at {}'.format(message[1], message1[1]))
 
     def update_dependencies(self):
         """
@@ -308,7 +314,7 @@ class Master:
         """
         self.sem.release()
         job = self.wait_queue.get()
-        logging.debug('Started job with job id {}'.format(job['job_id']))
+        logging.debug('Started job with job id {};{}'.format(job['job_id'], self.algo))
         mapTasks = set()
         for task in job['map_tasks']:
             mapTasks.add(task['task_id'])
@@ -333,13 +339,14 @@ class Master:
         while True:
             if (self.wait_queue.qsize() != 0):
                 self.sem.acquire(blocking=True)
-                threading.Thread(target=Master.schedule_job,args=[self]).start()
+                # threading.Thread(target=Master.schedule_job,args=[self]).start()
+                self.schedule_job()
 
 def main():
 
     # Logging configuration
-    logging.basicConfig(filename="yacs.log", level=logging.DEBUG,
-    format='%(filename)s:%(funcName)s:%(message)s:%(asctime)s')
+    logging.basicConfig(filename="masterlog.log", level=logging.DEBUG,
+    format='%(filename)s;%(funcName)s;%(message)s;%(asctime)s')
     config_file = open(sys.argv[1], "r")
     algo = sys.argv[2]
     masterProcess = Master(algo)
