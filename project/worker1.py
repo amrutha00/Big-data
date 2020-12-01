@@ -26,6 +26,7 @@ class Worker:
         self.pool=dict()
         self.server_port=5001
         self.wait_list = []
+        self.algo=None
     
    
     def listen_master(self):
@@ -67,8 +68,9 @@ class Worker:
             value = remaining time of the task (initialised to its duration)
         """
         task=json.loads(task)
-        task_id = task['task_id']
-        remain_time = task['duration'] + 1
+        task_id = task[0][0]
+        remain_time = task[0][1] + 1
+        self.algo=task[1]
         # self.pool[task_id]=remain_time
         self.wait_list.append(tuple((task_id, remain_time)))
         
@@ -85,15 +87,15 @@ class Worker:
         while (self.wait_list):
             ta = self.wait_list.pop()
             self.pool[ta[0]] = ta[1]
-            logging.debug("Started task {}".format(ta[0]))
+            logging.debug("Started task {};{}".format(ta[0],self.algo))
 
         tempKeys = list(self.pool.keys())
         tempList = []
         for task_id in tempKeys:
-            self.pool[task_id]-=1    #reduce time by 1 unit every clock cycle --sleep the thread for 1s
+            self.pool[task_id]-=1    #reduce time by 1 unit every clock cycle --sleep the threa,d for 1s
 
             if self.pool[task_id]==0: #the task execution is completed
-                logging.debug('Completed task {}'.format(task_id))
+                logging.debug('Completed task {};{}'.format(task_id,self.algo))
                 self.update_master(task_id) #t2 must update the master about the status of the task completion
                 tempList.append(task_id)
         for i in tempList:
@@ -112,12 +114,13 @@ class Worker:
 
 if __name__ == "__main__": 
 
-    logging.basicConfig(filename="worker1.log", level=logging.DEBUG,
-    format='%(filename)s;%(funcName)s;%(message)s;%(asctime)s')
-
+    
     port=int(sys.argv[1])
     worker_id=int(sys.argv[2])
     worker=Worker(port,worker_id)
+    
+    logging.basicConfig(filename="worker"+str(worker_id)+".log", level=logging.DEBUG,format='%(filename)s;%(message)s;%(asctime)s')
+
 
     t1 = threading.Thread(target=worker.listen_master) 
     t2 = threading.Thread(target=worker.clock)
